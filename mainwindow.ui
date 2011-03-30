@@ -102,7 +102,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>236</width>
-                    <height>382</height>
+                    <height>353</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -179,6 +179,13 @@
               </layout>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab">
@@ -231,8 +238,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>300</width>
-         <height>507</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -274,8 +281,8 @@
    <slot>showFileDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>159</x>
-     <y>43</y>
+     <x>285</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>150</x>
@@ -294,8 +301,24 @@
      <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>84</x>
-     <y>47</y>
+     <x>95</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>generateRandomSet()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>531</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>598</y>
     </hint>
    </hints>
   </connection>
@@ -303,5 +326,6 @@
  <slots>
   <signal>fileSelected(QString)</signal>
   <slot>showFileDialog()</slot>
+  <slot>generateRandomSet()</slot>
  </slots>
 </ui>

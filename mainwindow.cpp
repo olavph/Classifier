@@ -20,6 +20,11 @@ void MainWindow::showFileDialog()
     emit fileSelected(fileName);
 }
 
+void MainWindow::generateRandomSet()
+{
+//    ui->DrawingArea->
+}
+
 
 /*
 Implementar um programa que satisfaça as seguintes propriedades:

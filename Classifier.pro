@@ -11,8 +11,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    classifier.cpp \
+    class.cpp \
+    generator.cpp \
+    datum.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    classifier.h \
+    class.h \
+    generator.h \
+    datum.h
 
 FORMS    += mainwindow.ui

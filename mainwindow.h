@@ -19,6 +19,7 @@ private:
     Ui::MainWindow *ui;
 public slots:
     void showFileDialog();
+    void generateRandomSet();
 signals:
     void fileSelected(QString);
 };
