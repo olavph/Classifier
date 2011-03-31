@@ -23,6 +23,8 @@ private:
 public slots:
     void showFileDialog();
     void generateRandomSet();
+    void generateSpiral();
+    void generateDoubleSpiral();
 signals:
     void fileSelected(QString);
 };

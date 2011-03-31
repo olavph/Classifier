@@ -41,14 +41,45 @@ void MainWindow::generateRandomSet()
     classes.push_back(c);
     classes.push_back(d);
     QVector<Datum> * points = Generator::randomSet((unsigned int)100, QRect(0, 0, WIDTH, HEIGHT), classes);
-    //QVector<Datum> * points = Generator::spiral(QRect(0,0,WIDTH,HEIGHT), 10, 1.618, 0, 0, c);
-    //QVector<Datum> * points = Generator::doubleSpiral(QRect(0,0,WIDTH,HEIGHT), 2, GOLDEN_RATIO, 0, 0, c, d);
     for(int i = 0; i < points->size(); i++){
         drawDatum(points->at(i));
     }
     Datum * bob = new Datum(130,246);
     Classifier::kNN(3, *bob, *points);
     drawDatum(*bob);
+}
+
+void MainWindow::generateSpiral()
+{
+    Class * c = new Class(QColor(255,0,0), "a");
+    QRect bounds(QRect(ui->SpiralMinimumXSpinBox->value(),
+                 ui->SpiralMinimumYSpinBox->value(),
+                 ui->SpiralMaximumXSpinBox->value(),
+                 ui->SpiralMaximumYSpinBox->value()));
+    QVector<Datum> * points = Generator::spiral(bounds,
+                                                ui->SpiralRadiusBaseSpinBox->value(),
+                                                ui->SpiralRadiusIncreaseFactorSpinBox->value(),
+                                                0, ui->SpiralNoiseSpinBox->value(), c);
+    for(int i = 0; i < points->size(); i++){
+        drawDatum(points->at(i));
+    }
+}
+
+void MainWindow::generateDoubleSpiral()
+{
+    Class * c = new Class(QColor(255,0,0), "a");
+    Class * d = new Class(QColor(0,255,0), "b");
+    QRect bounds(QRect(ui->SpiralMinimumXSpinBox->value(),
+                 ui->SpiralMinimumYSpinBox->value(),
+                 ui->SpiralMaximumXSpinBox->value(),
+                 ui->SpiralMaximumYSpinBox->value()));
+    QVector<Datum> * points = Generator::doubleSpiral(bounds,
+                                                ui->SpiralRadiusBaseSpinBox->value(),
+                                                ui->SpiralRadiusIncreaseFactorSpinBox->value(),
+                                                0, ui->SpiralNoiseSpinBox->value(), c, d);
+    for(int i = 0; i < points->size(); i++){
+        drawDatum(points->at(i));
+    }
 }
 
 void MainWindow::drawDatum(Datum d)

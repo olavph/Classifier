@@ -23,6 +23,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>400</height>
+       </size>
+      </property>
       <property name="maximumSize">
        <size>
         <width>300</width>
@@ -48,7 +54,7 @@
         <item>
          <widget class="QTabWidget" name="GenerateDataTabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
@@ -58,14 +64,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QLabel" name="NumberOfVariablesLabel">
+               <widget class="QLabel" name="RandomNumberOfVariablesLabel">
                 <property name="text">
                  <string>Number of variables</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="NumberOfVariablesSpinBox">
+               <widget class="QSpinBox" name="RandomNumberOfVariablesSpinBox">
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -109,14 +115,14 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_4">
                      <item>
-                      <widget class="QLabel" name="VariableMinimumLabel1">
+                      <widget class="QLabel" name="RandomVariableMinimumLabel1">
                        <property name="text">
                         <string>Minimum</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QSpinBox" name="VariableMinimumValue1">
+                      <widget class="QSpinBox" name="RandomVariableMinimumValue1">
                        <property name="maximumSize">
                         <size>
                          <width>50</width>
@@ -132,14 +138,14 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="VariableMaximumLabel1">
+                      <widget class="QLabel" name="RandomVariableMaximumLabel1">
                        <property name="text">
                         <string>Maximum</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QSpinBox" name="VariableMaximumValue1">
+                      <widget class="QSpinBox" name="RandomVariableMaximumValue1">
                        <property name="maximumSize">
                         <size>
                          <width>50</width>
@@ -180,11 +186,252 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="RandomGenerateButton">
               <property name="text">
-               <string>PushButton</string>
+               <string>Generate</string>
               </property>
              </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_3">
+           <attribute name="title">
+            <string>Spiral</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>X</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="SpiralMinimumXLabel">
+                 <property name="text">
+                  <string>Minimum</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="SpiralMinimumXSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>-999999999</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="SpiralMaximumXLabel">
+                 <property name="text">
+                  <string>Maximum</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="SpiralMaximumXSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>-999999999</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999999999</number>
+                 </property>
+                 <property name="value">
+                  <number>100</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Y</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="SpiralMinimumYLabel">
+                 <property name="text">
+                  <string>Minimum</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="SpiralMinimumYSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>-999999999</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="SpiralMaximumYLabel">
+                 <property name="text">
+                  <string>Maximum</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="SpiralMaximumYSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>-999999999</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999999999</number>
+                 </property>
+                 <property name="value">
+                  <number>100</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="title">
+               <string>Radius</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="SpiralRadiusBaseLabel">
+                 <property name="text">
+                  <string>Base</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="SpiralRadiusBaseSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="SpiralRadiusIncreaseFactorLabel">
+                 <property name="text">
+                  <string>Increase factor</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="SpiralRadiusIncreaseFactorSpinBox">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.001000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>999999999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.618000000000000</double>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="SpiralNoiseLabel">
+                <property name="text">
+                 <string>Noise</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="SpiralNoiseSpinBox">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="SpiralGenerateButton">
+              <property name="text">
+               <string>Generate Simple</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="SpiralGenerateDouble">
+              <property name="text">
+               <string>Generate Double</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -238,12 +485,12 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>300</width>
+         <height>507</height>
         </rect>
        </property>
        <attribute name="label">
-        <string>Page 2</string>
+        <string>Add data</string>
        </attribute>
       </widget>
      </widget>
@@ -307,7 +554,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
+   <sender>RandomGenerateButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>generateRandomSet()</slot>
@@ -322,10 +569,44 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>SpiralGenerateButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>generateSpiral()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>281</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>297</x>
+     <y>27</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>SpiralGenerateDouble</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>generateDoubleSpiral()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>47</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>fileSelected(QString)</signal>
   <slot>showFileDialog()</slot>
   <slot>generateRandomSet()</slot>
+  <slot>generateSpiral()</slot>
+  <slot>generateDoubleSpiral()</slot>
  </slots>
 </ui>
