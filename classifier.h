@@ -1,6 +1,7 @@
 #include "datum.h"
 #include "class.h"
-#include <vector>
+#include "QVector"
+#include "QPair"
 
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
@@ -11,13 +12,10 @@ class Classifier
 {
 public:
     Classifier();
-    double manhattan(Datum d1, Datum d2);
-    double euclidian(Datum d1, Datum d2);
-    Class nN(Datum d);
-    Class kNN(Datum d);
-
-private:
-    vector< pair<Datum, Class> > classifiedDatum();
+    static double manhattan(Datum & d1, Datum & d2);
+    static double euclidian(Datum & d1, Datum & d2);
+    static void nN(Datum & d, const QVector<Datum> & classifiedData);
+    static void kNN(const size_t k, Datum & d, const QVector<Datum> & classifiedData);
 
 };
 

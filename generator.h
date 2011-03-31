@@ -11,8 +11,10 @@ class Generator
 {
 public:
     Generator();
-    static QVector< QPair<Datum, Class> > * randomSet(unsigned int size, QRect bounds, QVector<Class> classes);
-    static QVector< QPair<Datum, Class> > * spiral(QRect bounds, unsigned int baseRadius, unsigned int radiusIncreaseFactor, int startingAngle, unsigned int noiseMargin, Class dataClass);
+    static QVector<Datum> * randomSet(unsigned int size, QRect bounds, QVector<Class*> classes);
+    static QVector<Datum> * spiral(QRect bounds, double baseRadius, double radiusIncreaseFactor, double startingAngle, double noiseMargin, Class * dataClass);
+    static QVector<Datum> * doubleSpiral(QRect bounds, double baseRadius, double radiusIncreaseFactor, double startingAngle, double noiseMargin, Class * dataClass1, Class * dataClass2);
+    static double floatRand();
 };
 
 #endif // GENERATOR_H

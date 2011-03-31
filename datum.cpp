@@ -1,29 +1,33 @@
 #include "Datum.h"
 
-Datum::Datum(double x)
+Datum::Datum(double x, Class * myClass)
 {
     coordinates = new QVector<double>();
     coordinates->push_back(x);
+    myOwnSuperSecretClass = myClass;
 }
 
-Datum::Datum(double x, double y)
+Datum::Datum(double x, double y, Class * myClass)
 {
     coordinates = new QVector<double>();
     coordinates->push_back(x);
     coordinates->push_back(y);
+    myOwnSuperSecretClass = myClass;
 }
 
-Datum::Datum(double x, double y, double z)
+Datum::Datum(double x, double y, double z, Class * myClass)
 {
     coordinates = new QVector<double>();
     coordinates->push_back(x);
     coordinates->push_back(y);
     coordinates->push_back(z);
+    myOwnSuperSecretClass = myClass;
 }
 
-Datum::Datum(QVector<double> coord)
+Datum::Datum(QVector<double> coord, Class * myClass)
 {
     coordinates = new QVector<double>(coord);
+    myOwnSuperSecretClass = myClass;
 
 }
 

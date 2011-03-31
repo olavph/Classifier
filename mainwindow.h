@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include <datum.h>
 
 namespace Ui {
     class MainWindow;
@@ -14,9 +16,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    void drawDatum(Datum d);
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
 public slots:
     void showFileDialog();
     void generateRandomSet();

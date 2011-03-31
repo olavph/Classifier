@@ -1,13 +1,13 @@
 #include "classifier.h"
 #include <math.h>
+#include <algorithm>
+#include <QMap>
 
 Classifier::Classifier()
 {
-
-
 }
 
-double Classifier::manhattan(Datum d1, Datum d2)
+double Classifier::manhattan(Datum & d1, Datum & d2)
 {
     double manhattanDistance = 0;
     if (d1.getDimensions() != d2.getDimensions()){
@@ -19,7 +19,7 @@ double Classifier::manhattan(Datum d1, Datum d2)
     return manhattanDistance;
 }
 
-double Classifier::euclidian(Datum d1, Datum d2)
+double Classifier::euclidian(Datum & d1, Datum & d2)
 {
     double euclidianDistance = 0;
     if (d1.getDimensions() != d2.getDimensions()){
@@ -31,18 +31,46 @@ double Classifier::euclidian(Datum d1, Datum d2)
     return sqrt(euclidianDistance);
 }
 
-//Class Classifier::nN(Datum d)       ERRRRRRRROOOOOO!!!!!!!!!!!!
-//{
-//    pair<Datum, Class> nearestNeighbour = this->classifiedData().at(0);
-//    pair<Datum, Class> data = this->classifiedData().at(1);
-//    for(size_t i = 2; i <= this->classifiedData().size(); i++){
-//           if(euclidian(nearestNeighbour.first, d) < euclidian(data.first, d))
-//           {
-//                nearestNeighbour = data;
-//           }
-//           data = this->classifiedData().at(i);
-//    }
-//    return nearestNeighbour.second;
-//}
+void Classifier::nN(Datum & toBeClassified, const QVector<Datum> & data)
+{
+    Datum nearestNeighbour = data.at(0);
+    Datum classifiedDatum;
+    for(int i = 1; i < data.size(); i++){
+        classifiedDatum = data.at(i);
+        if(euclidian(nearestNeighbour, toBeClassified) > euclidian(classifiedDatum, toBeClassified))
+        {
+            nearestNeighbour = classifiedDatum;
+        }
+    }
+    toBeClassified.myOwnSuperSecretClass = nearestNeighbour.myOwnSuperSecretClass;
+}
+
+bool cmp( QPair<double, Datum> a, QPair<double, Datum> b ) {
+  return a.first > b.first;
+}
+
+void Classifier::kNN(const size_t k, Datum & toBeClassified, const QVector<Datum> & data)
+{
+    QVector< QPair<double, Datum> > distances;
+    for(int i = 0; i < data.size(); i++) {
+        Datum compared = data.at(i);
+        distances.push_back(QPair<double, Datum>(euclidian(toBeClassified, compared), compared));
+    }
+    sort(distances.begin(), distances.end(), cmp);
+
+    QMap<Class*, int> classCounts;
+    for(size_t i = 0; i < k; i++) {
+        Class * c = distances.at(i).second.myOwnSuperSecretClass;
+        classCounts[c] ++;
+    }
+    QMap<Class*, int>::iterator mapIt;
+    QMap<Class*, int>::iterator result = classCounts.begin();
+    for(mapIt = classCounts.begin(); mapIt != classCounts.end(); mapIt++) {
+        if(mapIt.value() > result.value())
+            result = mapIt;
+    }
+    toBeClassified.myOwnSuperSecretClass = result.key();
+}
+
 
 

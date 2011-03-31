@@ -6,39 +6,55 @@ Generator::Generator()
 {
 }
 
-QVector< QPair<Datum, Class> > * Generator::randomSet(unsigned int size, QRect bounds, QVector<Class> classes)
+QVector<Datum> * Generator::randomSet(unsigned int size, QRect bounds, QVector<Class*> classes)
 {
-    QVector< QPair<Datum, Class> > * set = new QVector< QPair<Datum, Class> >();
+    QVector<Datum> * set = new QVector<Datum>();
+
     for(unsigned int i = 0; i < size; i++) {
-        double x = bounds.x() + bounds.width() * rand();
-        double y = bounds.y() + bounds.height() * rand();
-        Datum datum(x, y);
-        Class randomClass = classes.at((int)(classes.size() * rand()));
-        set->push_back(QPair<Datum, Class>(datum, randomClass));
+        double x = bounds.x() + bounds.width() * floatRand();
+        double y = bounds.y() + bounds.height() * floatRand();
+        Class * randomClass = classes.at((int)(classes.size() * floatRand()));
+        Datum datum(x, y, randomClass);
+        set->push_back(datum);
     }
     return set;
 }
 
-QVector<QPair<Datum, Class> > * Generator::spiral(QRect bounds, unsigned int baseRadius, unsigned int radiusIncreaseFactor, int startingAngle, unsigned int noiseMargin, Class dataClass)
+QVector<Datum> * Generator::spiral(QRect bounds, double baseRadius, double radiusIncreaseFactor, double startingAngle, double noiseMargin, Class * dataClass)
 {
     assert(radiusIncreaseFactor > 1);
 
-    QVector< QPair<Datum, Class> > * set = new QVector< QPair<Datum, Class> >();
-    int centerX = (bounds.width() - bounds.x()) / 2 + bounds.x();
-    int centerY = (bounds.height() - bounds.y()) / 2 + bounds.y();
-    unsigned int radius = baseRadius;
-    int angle = startingAngle;
+    QVector<Datum> * set = new QVector<Datum>();
+    double centerX = (bounds.width() - bounds.x()) / 2 + bounds.x();
+    double centerY = (bounds.height() - bounds.y()) / 2 + bounds.y();
+    double radius = baseRadius;
+    double angle = startingAngle * M_PI/180;
     while(true) {
-        int noise = noiseMargin * (2 * rand() - 1);
-        double x = centerX + radius * cos(angle) * noise;
-        double y = centerY + radius * sin(angle) * noise;
+        double noise = noiseMargin * (2 * floatRand() - 1);
+        double x = centerX + (radius + noise) * cos(angle);
+        double y = centerY + (radius + noise) * sin(angle);
         if (!bounds.contains(x, y))
             break;
-        Datum datum(x, y);
-        set->push_back(QPair<Datum, Class>(datum, dataClass));
+        Datum datum(x, y, dataClass);
+        set->push_back(datum);
 
-        radius *= radiusIncreaseFactor;
-        angle += 10; //TODO parameterize
+        radius *= 1 + (radiusIncreaseFactor - 1) / (360 / 10);
+        angle += 10 * M_PI/180; //TODO parameterize
     }
     return set;
+}
+
+QVector<Datum> * Generator::doubleSpiral(QRect bounds, double baseRadius, double radiusIncreaseFactor, double startingAngle, double noiseMargin, Class * class1, Class * class2)
+{
+    QVector<Datum> * set1 = spiral(bounds, baseRadius, radiusIncreaseFactor, startingAngle, noiseMargin, class1);
+    QVector<Datum> * set2 = spiral(bounds, baseRadius, radiusIncreaseFactor, startingAngle + 180, noiseMargin, class2);
+    for(int i = 0; i < set2->size(); i++) {
+        set1->append(set2->at(i));
+    }
+    return set1;
+}
+
+double Generator::floatRand()
+{
+    return rand()/((double)RAND_MAX + 1);
 }
