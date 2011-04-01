@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>850</width>
     <height>600</height>
    </rect>
   </property>
@@ -54,13 +54,37 @@
         <item>
          <widget class="QTabWidget" name="GenerateDataTabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
             <string>Random</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="RandomNumberOfPointsLabel">
+                <property name="text">
+                 <string>Number of points</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="RandomNumberOfPointsSpinBox">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+                <property name="value">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
@@ -72,11 +96,17 @@
               </item>
               <item>
                <widget class="QSpinBox" name="RandomNumberOfVariablesSpinBox">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>10</number>
+                 <number>99</number>
+                </property>
+                <property name="value">
+                 <number>2</number>
                 </property>
                </widget>
               </item>
@@ -89,98 +119,57 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <widget class="QScrollArea" name="VariablesValuesList">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                 <property name="widgetResizable">
-                  <bool>true</bool>
-                 </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents">
-                  <property name="geometry">
-                   <rect>
-                    <x>0</x>
-                    <y>0</y>
-                    <width>236</width>
-                    <height>353</height>
-                   </rect>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_4">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_4">
-                     <item>
-                      <widget class="QLabel" name="RandomVariableMinimumLabel1">
-                       <property name="text">
-                        <string>Minimum</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="RandomVariableMinimumValue1">
-                       <property name="maximumSize">
-                        <size>
-                         <width>50</width>
-                         <height>16777215</height>
-                        </size>
-                       </property>
-                       <property name="minimum">
-                        <number>-999999999</number>
-                       </property>
-                       <property name="maximum">
-                        <number>999999999</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="RandomVariableMaximumLabel1">
-                       <property name="text">
-                        <string>Maximum</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="RandomVariableMaximumValue1">
-                       <property name="maximumSize">
-                        <size>
-                         <width>50</width>
-                         <height>16777215</height>
-                        </size>
-                       </property>
-                       <property name="minimum">
-                        <number>-999999999</number>
-                       </property>
-                       <property name="maximum">
-                        <number>999999999</number>
-                       </property>
-                       <property name="value">
-                        <number>100</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <spacer name="verticalSpacer_3">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </widget>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="RandomVariableMinimumLabel1">
+                   <property name="text">
+                    <string>Minimum</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="RandomVariableMinimumValue1">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="minimum">
+                    <number>-999999999</number>
+                   </property>
+                   <property name="maximum">
+                    <number>999999999</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="RandomVariableMaximumLabel1">
+                   <property name="text">
+                    <string>Maximum</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="RandomVariableMaximumValue1">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="minimum">
+                    <number>-999999999</number>
+                   </property>
+                   <property name="maximum">
+                    <number>999999999</number>
+                   </property>
+                   <property name="value">
+                    <number>500</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -192,6 +181,19 @@
               </property>
              </widget>
             </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_3">
@@ -200,7 +202,7 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="SpiralXGroupBox">
               <property name="title">
                <string>X</string>
               </property>
@@ -250,7 +252,7 @@
                   <number>999999999</number>
                  </property>
                  <property name="value">
-                  <number>100</number>
+                  <number>500</number>
                  </property>
                 </widget>
                </item>
@@ -258,7 +260,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="SpiralYGroupBox">
               <property name="title">
                <string>Y</string>
               </property>
@@ -308,7 +310,7 @@
                   <number>999999999</number>
                  </property>
                  <property name="value">
-                  <number>100</number>
+                  <number>500</number>
                  </property>
                 </widget>
                </item>
@@ -316,7 +318,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="SpiralRadiusGroupBox">
               <property name="title">
                <string>Radius</string>
               </property>
@@ -462,6 +464,13 @@
              </layout>
             </item>
             <item>
+             <widget class="QPushButton" name="OpenFileButton">
+              <property name="text">
+               <string>Open file</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -478,6 +487,13 @@
           </widget>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="ClearPushButton">
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="page_2">
@@ -492,6 +508,148 @@
        <attribute name="label">
         <string>Add data</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>Distance metric</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QRadioButton" name="EuclidianRadioButton">
+             <property name="text">
+              <string>Euclidian Distance</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="ManhattanRadioButton">
+             <property name="text">
+              <string>Manhattan Distance</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="title">
+           <string>Compare method</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QRadioButton" name="NNRadioButton">
+             <property name="text">
+              <string>NN</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QRadioButton" name="kNNRadioButton">
+               <property name="text">
+                <string>kNN</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>k:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="kNNSpinBox"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Datum</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QLabel" name="AddDataXLabel">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="AddDataXSpinBox"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QLabel" name="AddDataYLabel">
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="AddDataYSpinBox"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="InsertAndCompareButton">
+          <property name="text">
+           <string>Insert and compare</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Class found</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Class:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -512,7 +670,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>850</width>
      <height>21</height>
     </rect>
    </property>
@@ -560,8 +718,8 @@
    <slot>generateRandomSet()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>531</y>
+     <x>120</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -576,8 +734,8 @@
    <slot>generateSpiral()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>281</y>
+     <x>162</x>
+     <y>324</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -592,12 +750,44 @@
    <slot>generateDoubleSpiral()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>311</y>
+     <x>190</x>
+     <y>353</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
      <y>47</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>OpenFileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>211</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ClearPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>182</x>
+     <y>538</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>519</y>
     </hint>
    </hints>
   </connection>
@@ -608,5 +798,7 @@
   <slot>generateRandomSet()</slot>
   <slot>generateSpiral()</slot>
   <slot>generateDoubleSpiral()</slot>
+  <slot>openFile()</slot>
+  <slot>clear()</slot>
  </slots>
 </ui>

@@ -19,7 +19,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(QRect(0,0,WIDTH,HEIGHT), this);
     ui->DrawingArea->setScene(scene);
-    this->generateRandomSet();
+
+    Class * c = new Class(QColor(255,0,0), "a");
+    Class * d = new Class(QColor(0,255,0), "b");
+    classes.push_back(c);
+    classes.push_back(d);
 }
 
 MainWindow::~MainWindow()
@@ -30,53 +34,116 @@ MainWindow::~MainWindow()
 void MainWindow::showFileDialog()
 {
     QString fileName = QFileDialog::getOpenFileName(this);
+    this->drawFromFile(fileName);
     emit fileSelected(fileName);
 }
 
 void MainWindow::generateRandomSet()
 {
-    QVector<Class*> classes;
-    Class * c = new Class(QColor(255,0,0), "a");
-    Class * d = new Class(QColor(0,255,0), "b");
-    classes.push_back(c);
-    classes.push_back(d);
-    QVector<Datum> * points = Generator::randomSet((unsigned int)100, QRect(0, 0, WIDTH, HEIGHT), classes);
-    for(int i = 0; i < points->size(); i++){
-        drawDatum(points->at(i));
+    QRect bounds(QRect(ui->RandomVariableMinimumValue1->value(),
+                 ui->RandomVariableMinimumValue1->value(),
+                 ui->RandomVariableMaximumValue1->value(),
+                 ui->RandomVariableMaximumValue1->value()));
+    QVector<Datum> * generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
+    for(int i = 0; i < generatedPoints->size(); i++){
+        drawDatum(generatedPoints->at(i));
     }
-    Datum * bob = new Datum(130,246);
-    Classifier::kNN(3, *bob, *points);
-    drawDatum(*bob);
+    points += *generatedPoints;
 }
 
 void MainWindow::generateSpiral()
 {
-    Class * c = new Class(QColor(255,0,0), "a");
     QRect bounds(QRect(ui->SpiralMinimumXSpinBox->value(),
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum> * points = Generator::spiral(bounds,
+    QVector<Datum> * generatedPoints = Generator::spiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
-                                                0, ui->SpiralNoiseSpinBox->value(), c);
-    for(int i = 0; i < points->size(); i++){
-        drawDatum(points->at(i));
+                                                0, ui->SpiralNoiseSpinBox->value(), classes.at(0));
+    for(int i = 0; i < generatedPoints->size(); i++){
+        drawDatum(generatedPoints->at(i));
     }
+    points += *generatedPoints;
 }
 
 void MainWindow::generateDoubleSpiral()
 {
-    Class * c = new Class(QColor(255,0,0), "a");
-    Class * d = new Class(QColor(0,255,0), "b");
     QRect bounds(QRect(ui->SpiralMinimumXSpinBox->value(),
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum> * points = Generator::doubleSpiral(bounds,
+    QVector<Datum> * generatedPoints = Generator::doubleSpiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
-                                                0, ui->SpiralNoiseSpinBox->value(), c, d);
+                                                0, ui->SpiralNoiseSpinBox->value(), classes.at(0), classes.at(1));
+    for(int i = 0; i < generatedPoints->size(); i++){
+        drawDatum(generatedPoints->at(i));
+    }
+    points += *generatedPoints;
+}
+
+void MainWindow::clear()
+{
+    points.clear();
+    scene->clear();
+}
+
+
+
+QVector<Datum>* read(QString nomeDoArquivo, int n){
+    // assume-se que o arquivo de entrada seja formado por d1, d2, ..., dn, nomeDaClasse\n
+    ifstream fp_in;  // declarations of streams fp_in
+    string arq = nomeDoArquivo.toStdString();
+    fp_in.open(arq.c_str(), ios::in);
+
+    QVector<double> vec;
+    QVector<Datum>* result = new QVector<Datum>();
+
+    char virgula;
+    string className;
+
+    double temp;
+
+    while (!fp_in.eof())
+    {
+        for (int dim = 0; dim < n; dim++) {
+            fp_in >> temp;
+            fp_in >> virgula;
+            vec.push_back(temp);
+            qDebug("%f\n", temp);
+        }
+        fp_in >> className;
+
+        Datum data(vec, new Class(QColor(255,0,255),QString(className.c_str())));
+        result->push_back(data);
+        vec.clear();
+    }
+
+    //por algum motivo bizarro isso retorna sempre uma repetiçao da ultima coord, e da ultima classe.... eliminar! então:
+    result->pop_back(); //POG!
+
+    fp_in.close();   // close the streams
+
+    return result;
+}
+
+void MainWindow::drawFromFile(QString f)
+{
+    QVector<Datum> * points = read(f, 4);
+    for(int i = 0; i < points->size(); i++){
+        this->drawDatum(points->at(i));
+        qDebug("%f, %f", points->at(i).getCoordinate(0), points->at(i).getCoordinate(1));
+    }
+}
+
+
+void MainWindow::openFile()
+{
+    QString filePath = ui->FilePathTextBox->text();
+    if(filePath.size() == 0)
+        return;
+    QVector<Datum> * points = read(filePath, 4);
     for(int i = 0; i < points->size(); i++){
         drawDatum(points->at(i));
     }

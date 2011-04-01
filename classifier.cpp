@@ -31,7 +31,7 @@ double Classifier::euclidian(Datum & d1, Datum & d2)
     return sqrt(euclidianDistance);
 }
 
-void Classifier::nN(Datum & toBeClassified, const QVector<Datum> & data)
+void Classifier::nNEuclidian(Datum & toBeClassified, const QVector<Datum> & data)
 {
     Datum nearestNeighbour = data.at(0);
     Datum classifiedDatum;
@@ -49,7 +49,7 @@ bool cmp( QPair<double, Datum> a, QPair<double, Datum> b ) {
   return a.first > b.first;
 }
 
-void Classifier::kNN(const size_t k, Datum & toBeClassified, const QVector<Datum> & data)
+void Classifier::kNNEuclidian(const size_t k, Datum & toBeClassified, const QVector<Datum> & data)
 {
     QVector< QPair<double, Datum> > distances;
     for(int i = 0; i < data.size(); i++) {
@@ -73,4 +73,40 @@ void Classifier::kNN(const size_t k, Datum & toBeClassified, const QVector<Datum
 }
 
 
+void Classifier::nNManhattan(Datum & toBeClassified, const QVector<Datum> & data)
+{
+    Datum nearestNeighbour = data.at(0);
+    Datum classifiedDatum;
+    for(int i = 1; i < data.size(); i++){
+        classifiedDatum = data.at(i);
+        if(manhattan(nearestNeighbour, toBeClassified) > manhattan(classifiedDatum, toBeClassified))
+        {
+            nearestNeighbour = classifiedDatum;
+        }
+    }
+    toBeClassified.myOwnSuperSecretClass = nearestNeighbour.myOwnSuperSecretClass;
+}
+
+void Classifier::kNNManhattan(const size_t k, Datum & toBeClassified, const QVector<Datum> & data)
+{
+    QVector< QPair<double, Datum> > distances;
+    for(int i = 0; i < data.size(); i++) {
+        Datum compared = data.at(i);
+        distances.push_back(QPair<double, Datum>(manhattan(toBeClassified, compared), compared));
+    }
+    sort(distances.begin(), distances.end(), cmp);
+
+    QMap<Class*, int> classCounts;
+    for(size_t i = 0; i < k; i++) {
+        Class * c = distances.at(i).second.myOwnSuperSecretClass;
+        classCounts[c] ++;
+    }
+    QMap<Class*, int>::iterator mapIt;
+    QMap<Class*, int>::iterator result = classCounts.begin();
+    for(mapIt = classCounts.begin(); mapIt != classCounts.end(); mapIt++) {
+        if(mapIt.value() > result.value())
+            result = mapIt;
+    }
+    toBeClassified.myOwnSuperSecretClass = result.key();
+}
 
