@@ -25,7 +25,7 @@ public:
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void drawDatum(Datum d);
+    void drawDatum(Datum d, bool selected = false);
     void drawFromFile(QString f);
 private:
     Ui::MainWindow *ui;
@@ -37,6 +37,7 @@ public slots:
     void generateDoubleSpiral();
     void clear();
     void openFile();
+    void insertAndClassify();
 signals:
     void fileSelected(QString);
 };

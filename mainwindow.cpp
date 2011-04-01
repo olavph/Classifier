@@ -130,11 +130,12 @@ QVector<Datum>* read(QString nomeDoArquivo, int n){
 
 void MainWindow::drawFromFile(QString f)
 {
-    QVector<Datum> * points = read(f, 4);
-    for(int i = 0; i < points->size(); i++){
-        this->drawDatum(points->at(i));
-        qDebug("%f, %f", points->at(i).getCoordinate(0), points->at(i).getCoordinate(1));
+    QVector<Datum> * readPoints = read(f, 4);
+    for(int i = 0; i < readPoints->size(); i++){
+        this->drawDatum(readPoints->at(i));
+        qDebug("%f, %f", readPoints->at(i).getCoordinate(0), readPoints->at(i).getCoordinate(1));
     }
+    points += *readPoints;
 }
 
 
@@ -149,9 +150,34 @@ void MainWindow::openFile()
     }
 }
 
-void MainWindow::drawDatum(Datum d)
+void MainWindow::insertAndClassify()
 {
-    scene->addEllipse(d.getCoordinate(0)-POINT_RADIUS, d.getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, QPen(d.myOwnSuperSecretClass->getColor()), QBrush(d.myOwnSuperSecretClass->getColor()));
+    double x = ui->AddDataXSpinBox->value();
+    double y = ui->AddDataYSpinBox->value();
+    Datum newDatum(x, y);
+    bool euclidian = ui->EuclidianRadioButton->isChecked();
+    bool manhattan = ui->ManhattanRadioButton->isChecked();
+    bool nN = ui->NNRadioButton->isChecked();
+    bool kNN = ui->kNNRadioButton->isChecked();
+    size_t k = ui->kNNSpinBox->value();
+    if(euclidian && nN)
+        Classifier::nNEuclidian(newDatum, points);
+    else if(manhattan && nN)
+        Classifier::nNManhattan(newDatum, points);
+    else if(euclidian && kNN)
+        Classifier::kNNEuclidian(k, newDatum, points);
+    if(manhattan && kNN)
+        Classifier::kNNManhattan(k, newDatum, points);
+    points.push_back(newDatum);
+    drawDatum(newDatum, true);
+}
+
+void MainWindow::drawDatum(Datum d, bool selected)
+{
+    QPen pen;
+    if (!selected)
+        pen.setColor(d.myOwnSuperSecretClass->getColor());
+    scene->addEllipse(d.getCoordinate(0)-POINT_RADIUS, d.getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, pen, QBrush(d.myOwnSuperSecretClass->getColor()));
 }
 
 

@@ -571,7 +571,14 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="kNNSpinBox"/>
+              <widget class="QSpinBox" name="kNNSpinBox">
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>3</number>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -594,7 +601,17 @@
               </widget>
              </item>
              <item>
-              <widget class="QDoubleSpinBox" name="AddDataXSpinBox"/>
+              <widget class="QDoubleSpinBox" name="AddDataXSpinBox">
+               <property name="minimum">
+                <double>-999999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999999999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>250.000000000000000</double>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -608,7 +625,17 @@
               </widget>
              </item>
              <item>
-              <widget class="QDoubleSpinBox" name="AddDataYSpinBox"/>
+              <widget class="QDoubleSpinBox" name="AddDataYSpinBox">
+               <property name="minimum">
+                <double>-999999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999999999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>250.000000000000000</double>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -618,21 +645,7 @@
         <item>
          <widget class="QPushButton" name="InsertAndCompareButton">
           <property name="text">
-           <string>Insert and compare</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Class found</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Class:</string>
+           <string>Insert and classify</string>
           </property>
          </widget>
         </item>
@@ -791,6 +804,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>InsertAndCompareButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>insertAndClassify()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>353</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>fileSelected(QString)</signal>
@@ -800,5 +829,6 @@
   <slot>generateDoubleSpiral()</slot>
   <slot>openFile()</slot>
   <slot>clear()</slot>
+  <slot>insertAndClassify()</slot>
  </slots>
 </ui>
