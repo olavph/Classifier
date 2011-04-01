@@ -59,8 +59,8 @@ void Classifier::kNNEuclidian(const size_t k, Datum & toBeClassified, const QVec
     sort(distances.begin(), distances.end(), cmp);
 
     QMap<Class*, int> classCounts;
-    for(size_t i = 0; i < k; i++) {
-        Class * c = distances.at(i).second.myOwnSuperSecretClass;
+    for(size_t i = 1; i <= k; i++) {
+        Class * c = distances.at(distances.size()-i).second.myOwnSuperSecretClass;
         classCounts[c] ++;
     }
     QMap<Class*, int>::iterator mapIt;
@@ -97,8 +97,8 @@ void Classifier::kNNManhattan(const size_t k, Datum & toBeClassified, const QVec
     sort(distances.begin(), distances.end(), cmp);
 
     QMap<Class*, int> classCounts;
-    for(size_t i = 0; i < k; i++) {
-        Class * c = distances.at(i).second.myOwnSuperSecretClass;
+    for(size_t i = 1; i <= k; i++) {
+        Class * c = distances.at(distances.size()-i).second.myOwnSuperSecretClass;
         classCounts[c] ++;
     }
     QMap<Class*, int>::iterator mapIt;
