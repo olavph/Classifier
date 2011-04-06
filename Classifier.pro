@@ -21,6 +21,9 @@ HEADERS  += mainwindow.h \
     classifier.h \
     class.h \
     generator.h \
-    datum.h
+    datum.h \
+    distancecalculation.h \
+    euclidiandistance.h \
+    manhattandistance.h
 
 FORMS    += mainwindow.ui

@@ -5,6 +5,9 @@
 #include "class.h"
 #include "generator.h"
 #include "classifier.h"
+#include "distancecalculation.h"
+#include "euclidiandistance.h"
+#include "manhattandistance.h"
 
 
 #define WIDTH 500
@@ -155,19 +158,19 @@ void MainWindow::insertAndClassify()
     double x = ui->AddDataXSpinBox->value();
     double y = ui->AddDataYSpinBox->value();
     Datum newDatum(x, y);
-    bool euclidian = ui->EuclidianRadioButton->isChecked();
-    bool manhattan = ui->ManhattanRadioButton->isChecked();
-    bool nN = ui->NNRadioButton->isChecked();
-    bool kNN = ui->kNNRadioButton->isChecked();
+
+    DistanceCalculation * algorithm;
+    if(ui->EuclidianRadioButton->isChecked())
+        algorithm = new EuclidianDistance();
+    else if(ui->ManhattanRadioButton->isChecked())
+        algorithm = new ManhattanDistance();
+
     size_t k = ui->kNNSpinBox->value();
-    if(euclidian && nN)
-        Classifier::nNEuclidian(newDatum, points);
-    else if(manhattan && nN)
-        Classifier::nNManhattan(newDatum, points);
-    else if(euclidian && kNN)
-        Classifier::kNNEuclidian(k, newDatum, points);
-    if(manhattan && kNN)
-        Classifier::kNNManhattan(k, newDatum, points);
+    if(ui->NNRadioButton->isChecked())
+        Classifier::nN(algorithm, newDatum, points);
+    else if(ui->kNNRadioButton->isChecked())
+        Classifier::kNN(algorithm, k, newDatum, points);
+
     points.push_back(newDatum);
     drawDatum(newDatum, true);
 }
