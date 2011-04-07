@@ -16,6 +16,9 @@ public:
     double getCoordinate(int index) const;
     unsigned int getDimensions() const;
 
+    const double x() const {return getCoordinate(0);};
+    const double y() const {return getCoordinate(1);};
+    const double z() const {return getCoordinate(2);};
 
     Class * myOwnSuperSecretClass; //TODO refactor!
 

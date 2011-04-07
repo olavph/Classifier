@@ -45,7 +45,7 @@ Circle::Circle(double xc, double yc, double r){
 bool Circle::internalPoint(double x, double y){
     Datum a = Datum(this->xCenter, this->yCenter);
     Datum b = Datum(x, y);
-    return (new EuclidianDistance())->distance(a, b) <= this->radius;
+    return (new EuclidianDistance())->distance(&a, &b) <= this->radius;
 }
 
 

@@ -12,18 +12,26 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    circle.cpp \
     classifier.cpp \
     class.cpp \
     generator.cpp \
-    datum.cpp
+    line.cpp \
+    datum.cpp \
+    triple.cpp \
+    datacontainer.cpp
 
 HEADERS  += mainwindow.h \
+    circle.h \
     classifier.h \
     class.h \
     generator.h \
     datum.h \
     distancecalculation.h \
     euclidiandistance.h \
-    manhattandistance.h
+    line.h \
+    manhattandistance.h \
+    triple.h \
+    datacontainer.h
 
 FORMS    += mainwindow.ui

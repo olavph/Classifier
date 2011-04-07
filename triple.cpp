@@ -58,7 +58,6 @@ Datum Triple::centroid(){
     Line lineForAB(*this->a, *this->b);
     Line lineForAC(*this->a, *this->c);
     Datum result = lineForAB.intersection(lineForAC);
-    qDebug("(%f, %f)", result.x(), result.y());
     return result;
 }
 

@@ -8,6 +8,9 @@
 #include "distancecalculation.h"
 #include "euclidiandistance.h"
 #include "manhattandistance.h"
+#include "triple.h"
+#include "circle.h"
+#include "line.h"
 
 
 #define WIDTH 500
@@ -47,11 +50,11 @@ void MainWindow::generateRandomSet()
                  ui->RandomVariableMinimumValue1->value(),
                  ui->RandomVariableMaximumValue1->value(),
                  ui->RandomVariableMaximumValue1->value()));
-    QVector<Datum> * generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
-    for(int i = 0; i < generatedPoints->size(); i++){
-        drawDatum(generatedPoints->at(i));
+    QVector<Datum*> generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
+    for(int i = 0; i < generatedPoints.size(); i++){
+        drawDatum(generatedPoints.at(i));
     }
-    points += *generatedPoints;
+    dataContainer.addData(generatedPoints);
 }
 
 void MainWindow::generateSpiral()
@@ -60,14 +63,14 @@ void MainWindow::generateSpiral()
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum> * generatedPoints = Generator::spiral(bounds,
+    QVector<Datum*> generatedPoints = Generator::spiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0));
-    for(int i = 0; i < generatedPoints->size(); i++){
-        drawDatum(generatedPoints->at(i));
+    for(int i = 0; i < generatedPoints.size(); i++){
+        drawDatum(generatedPoints.at(i));
     }
-    points += *generatedPoints;
+    dataContainer.addData(generatedPoints);
 }
 
 void MainWindow::generateDoubleSpiral()
@@ -76,32 +79,32 @@ void MainWindow::generateDoubleSpiral()
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum> * generatedPoints = Generator::doubleSpiral(bounds,
+    QVector<Datum*> generatedPoints = Generator::doubleSpiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0), classes.at(1));
-    for(int i = 0; i < generatedPoints->size(); i++){
-        drawDatum(generatedPoints->at(i));
+    for(int i = 0; i < generatedPoints.size(); i++){
+        drawDatum(generatedPoints.at(i));
     }
-    points += *generatedPoints;
+    dataContainer.addData(generatedPoints);
 }
 
 void MainWindow::clear()
 {
-    points.clear();
+    dataContainer.clearData();
     scene->clear();
 }
 
 
 
-QVector<Datum>* read(QString nomeDoArquivo, int n){
+QVector<Datum*> read(QString nomeDoArquivo, int n){
     // assume-se que o arquivo de entrada seja formado por d1, d2, ..., dn, nomeDaClasse\n
     ifstream fp_in;  // declarations of streams fp_in
     string arq = nomeDoArquivo.toStdString();
     fp_in.open(arq.c_str(), ios::in);
 
     QVector<double> vec;
-    QVector<Datum>* result = new QVector<Datum>();
+    QVector<Datum*> result;
 
     char virgula;
     string className;
@@ -118,13 +121,13 @@ QVector<Datum>* read(QString nomeDoArquivo, int n){
         }
         fp_in >> className;
 
-        Datum data(vec, new Class(QColor(255,0,255),QString(className.c_str())));
-        result->push_back(data);
+        Datum * data = new Datum(vec, new Class(QColor(255,0,255),QString(className.c_str())));
+        result.push_back(data);
         vec.clear();
     }
 
     //por algum motivo bizarro isso retorna sempre uma repetiçao da ultima coord, e da ultima classe.... eliminar! então:
-    result->pop_back(); //POG!
+    result.pop_back(); //POG!
 
     fp_in.close();   // close the streams
 
@@ -133,12 +136,12 @@ QVector<Datum>* read(QString nomeDoArquivo, int n){
 
 void MainWindow::drawFromFile(QString f)
 {
-    QVector<Datum> * readPoints = read(f, 4);
-    for(int i = 0; i < readPoints->size(); i++){
-        this->drawDatum(readPoints->at(i));
-        qDebug("%f, %f", readPoints->at(i).getCoordinate(0), readPoints->at(i).getCoordinate(1));
+    QVector<Datum*> readPoints = read(f, 4);
+    for(int i = 0; i < readPoints.size(); i++){
+        this->drawDatum(readPoints.at(i));
+        qDebug("%f, %f", readPoints.at(i)->getCoordinate(0), readPoints.at(i)->getCoordinate(1));
     }
-    points += *readPoints;
+    dataContainer.addData(readPoints);
 }
 
 
@@ -147,9 +150,9 @@ void MainWindow::openFile()
     QString filePath = ui->FilePathTextBox->text();
     if(filePath.size() == 0)
         return;
-    QVector<Datum> * points = read(filePath, 4);
-    for(int i = 0; i < points->size(); i++){
-        drawDatum(points->at(i));
+    QVector<Datum*> points = read(filePath, 4);
+    for(int i = 0; i < points.size(); i++){
+        drawDatum(points.at(i));
     }
 }
 
@@ -157,7 +160,7 @@ void MainWindow::insertAndClassify()
 {
     double x = ui->AddDataXSpinBox->value();
     double y = ui->AddDataYSpinBox->value();
-    Datum newDatum(x, y);
+    Datum * newDatum = new Datum(x, y);
 
     DistanceCalculation * algorithm;
     if(ui->EuclidianRadioButton->isChecked())
@@ -167,50 +170,47 @@ void MainWindow::insertAndClassify()
 
     size_t k = ui->kNNSpinBox->value();
     if(ui->NNRadioButton->isChecked())
-        Classifier::nN(algorithm, newDatum, points);
+        Classifier::nN(algorithm, newDatum, dataContainer.getData());
     else if(ui->kNNRadioButton->isChecked())
-        Classifier::kNN(algorithm, k, newDatum, points);
+        Classifier::kNN(algorithm, k, newDatum, dataContainer.getData());
 
-    points.push_back(newDatum);
+    dataContainer.addDatum(newDatum);
     drawDatum(newDatum, true);
 }
 
-void MainWindow::drawDatum(Datum d, bool selected)
+void MainWindow::drawDatum(Datum * d, bool selected)
 {
     QPen pen;
     if (!selected)
-        pen.setColor(d.myOwnSuperSecretClass->getColor());
-    scene->addEllipse(d.getCoordinate(0)-POINT_RADIUS, d.getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, pen, QBrush(d.myOwnSuperSecretClass->getColor()));
+        pen.setColor(d->myOwnSuperSecretClass->getColor());
+    scene->addEllipse(d->getCoordinate(0)-POINT_RADIUS, d->getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, pen, QBrush(d->myOwnSuperSecretClass->getColor()));
 }
 
+void MainWindow::drawDelaunayTriangles()
+{
+    QVector<Triple*> triplesWithoutOtherInternalPoints = dataContainer.getTriples();
+    for (int f = 0; f < triplesWithoutOtherInternalPoints.size(); f++) {
+        double xA = triplesWithoutOtherInternalPoints.at(f)->getA()->x();
+        double yA = triplesWithoutOtherInternalPoints.at(f)->getA()->y();
+        double xB = triplesWithoutOtherInternalPoints.at(f)->getB()->x();
+        double yB = triplesWithoutOtherInternalPoints.at(f)->getB()->y();
+        double xC = triplesWithoutOtherInternalPoints.at(f)->getC()->x();
+        double yC = triplesWithoutOtherInternalPoints.at(f)->getC()->y();
 
-/*
-Implementar um programa que satisfaça as seguintes propriedades:
+        scene->addLine(xA, yA, xB, yB);
+        scene->addLine(xB, yB, xC, yC);
+        scene->addLine(xC, yC, xA, yA);
+    }
+}
 
-    O programa deve ser capaz de gerar 4 tipos de conjuntos de dados:
-        Um conjunto de dados 2D (duas variáveis apenas).
-        Um conjunto de dados ND (com um grande número de variáveis)
-        Conjuntos de dados de espiral simples.
-        Conjuntos de dados de espiral dupla.
-    Euclidiana entre padrões de dimensões arbitrárias, de maneira que possam
-    ser usados para todos os conjuntos de dados gerados.
-    Implemente o algoritmo de NN (Nearest Neighbour) e kNN (k-Nearest
-    Neighbours) e teste em todos os 4 conjuntos de dados.
+void MainWindow::drawVoronoiDiagram()
+{
+//    for (size_t g = 0; g < neighbours->size(); g++) {
+//        double x1 = neighbours->at(g)->first->centroid().x();
+//        double y1 = neighbours->at(g)->first->centroid().y();
+//        double x2 = neighbours->at(g)->first->centroid().x();
+//        double y2 = neighbours->at(g)->first->centroid().y();
 
-Observações:
-
-    Os dados 2D e ND podem ser utilizados a partir de conjuntos de dados
-    disponíveis nos sites sugeridos.
-Ismael Seidel dit (16:32)
-Os dados em espiral devem ser gerados a partir de algoritmos que você
-mesmo vai implementar. Inclua no algoritmo a possibilidade de introduzir
-ruído na geração dos dados (através, por exemplo, de uma variável aleatória
-que modifica levemente o comprimento do raio gerado para o próximo
-ponto).
-Observe que na espiral dupla cada braço da espiral em seu total
-representa uma classe.
-    O programa deve ser capaz de desenhar os padrões na tela com cores
-    distintas para cada classe.
-    Deve ser possível entrar com padrões arbitrários (2D e ND) para que o
-    programa os classifique.
-*/
+//        scene->addLine(x1, y1, x2, y2);
+//    }
+}

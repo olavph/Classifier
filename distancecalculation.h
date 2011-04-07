@@ -7,7 +7,7 @@ class DistanceCalculation
 {
 public:
     DistanceCalculation() {};
-    virtual double distance(Datum & d1, Datum & d2) = 0;
+    virtual double distance(const Datum * d1, const Datum * d2) = 0;
 };
 
 #endif // DISTANCECALCULATION_H

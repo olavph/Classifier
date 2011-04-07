@@ -3,12 +3,14 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <datum.h>
 #include <iostream>  // I/O
 #include <fstream>   // file I/O
 #include <iomanip>   // format manipulation
 #include <string>
 #include <cstdlib>
+
+#include "datacontainer.h"
+#include "class.h"
 
 using namespace std;
 
@@ -20,12 +22,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    QVector<Datum> points;
+    DataContainer dataContainer;
     QVector<Class*> classes;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void drawDatum(Datum d, bool selected = false);
+    void drawDatum(Datum * d, bool selected = false);
     void drawFromFile(QString f);
 private:
     Ui::MainWindow *ui;
@@ -38,6 +40,8 @@ public slots:
     void clear();
     void openFile();
     void insertAndClassify();
+    void drawDelaunayTriangles();
+    void drawVoronoiDiagram();
 signals:
     void fileSelected(QString);
 };
