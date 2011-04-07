@@ -14,18 +14,17 @@
 class Circle {
 public:
     Circle(double x1, double y1, double x2, double y2, double x3, double y3);
-    Circle(const Datum& a, const Datum& b, const Datum& c);
-    Circle(double xc, double yc, double r);
+    Circle(const Datum * a, const Datum * b, const Datum * c);
+    Circle(const Datum & center, double radius);
     Circle(const Circle& orig);
 
-    bool internalPoint(double x, double y);
+    bool internalPoint(const Datum * d) const;
 
     virtual ~Circle();
 private:
     void calculateCircleEquation(double x1, double y1, double x2, double y2, double x3, double y3);
 
-    double xCenter;
-    double yCenter;
+    Datum center;
     double radius;
 
 };

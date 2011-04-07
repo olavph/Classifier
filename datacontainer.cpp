@@ -27,45 +27,33 @@ void DataContainer::clearData()
 
 const QVector<Triple*> DataContainer::getTriples()
 {
-    //ordenar todos os pontos em triplas
+    // Creates list of triples without internal points (Delaunay Triangulation)
 
     QVector<Triple*> triplesList;
-
     int numPoints = points.size();
-
 
     for (int a = 0; a < numPoints; a++) {
         for (int b = 0; b < numPoints; b++) {
-            if(a != b)
+            if(a != b) {
                 for (int c = 0; c < numPoints; c++) {
                     if ((a != c) && (b != c)){
-                        triplesList.push_back(new Triple(points.at(a),points.at(b),points.at(c)));
+                        Triple * aTriple = new Triple(points.at(a),points.at(b),points.at(c));
+                        triplesList.append(aTriple);
+                        Circle tempCircle(aTriple->getA(), aTriple->getB(), aTriple->getC());
+                        for (int d = 0; d < numPoints; d++) {
+                            if ((a != d) && (b != d) && (c != d)){
+                                if (tempCircle.internalPoint(points.at(d))) {
+                                    triplesList.pop_back();
+                                    delete aTriple;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-        }
-    }
-
-
-    //Verifica a existencia de triplas sem nenhum outro ponto interno;
-    QVector<Triple*> triplesWithoutOtherInternalPoints;
-    Circle * tempCircle;
-    bool add = true;
-    for (int i = 0; i < triplesList.size(); i++) {
-        Triple * aTriple = triplesList.at(i);
-        tempCircle = new Circle(*aTriple->getA(), *aTriple->getB(), *aTriple->getC());
-        for (int h = 0; h < numPoints; h++) {
-            if (tempCircle->internalPoint(points.at(h)->x(),(points.at(h)->y()))) {
-                add = false;
-                break;
             }
         }
-        if (add){
-            triplesWithoutOtherInternalPoints.push_back(aTriple);
-        }else{
-            add = true;
-        }
     }
-
 
     //Classifica vizinhos, para desenhar linhas entre os centros dos circulos vizinhos;
 //    QVector< pair <Triple*, Triple*>* > * neighbours = new vector< pair <Triple*, Triple*>* >();
@@ -79,6 +67,6 @@ const QVector<Triple*> DataContainer::getTriples()
 //        }
 //    }
 
-    return triplesWithoutOtherInternalPoints;
+    return triplesList;
 }
 

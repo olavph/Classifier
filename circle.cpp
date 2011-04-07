@@ -14,8 +14,8 @@ Circle::Circle(double x1, double y1, double x2, double y2, double x3, double y3)
     this->calculateCircleEquation(x1,y1,x2,y2,x3,y3);
 }
 
-Circle::Circle(const Datum& a, const Datum& b, const Datum& c){
-    this->calculateCircleEquation(a.x(),a.y(),b.x(),b.y(),c.x(),c.y());
+Circle::Circle(const Datum * a, const Datum * b, const Datum * c){
+    this->calculateCircleEquation(a->x(),a->y(),b->x(),b->y(),c->x(),c->y());
 }
 
 void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2, double x3, double y3){
@@ -31,21 +31,17 @@ void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2,
 
     r = sqrt((x1-a)*(x1-a)+(y1-b)*(y1-b));
 
-    this->xCenter = a;
-    this->yCenter = b;
+    center = Datum(a, b);
     this->radius = r;
 }
 
-Circle::Circle(double xc, double yc, double r){
-    this->xCenter = xc;
-    this->yCenter = yc;
-    this->radius = r;
+Circle::Circle(const Datum & c, double r){
+    center = c;
+    radius = r;
 }
 
-bool Circle::internalPoint(double x, double y){
-    Datum a = Datum(this->xCenter, this->yCenter);
-    Datum b = Datum(x, y);
-    return (new EuclidianDistance())->distance(&a, &b) <= this->radius;
+bool Circle::internalPoint(const Datum * d) const{
+    return (new EuclidianDistance())->distance(&center, d) <= radius;
 }
 
 
