@@ -33,6 +33,35 @@ const QVector<Triple*> DataContainer::getTriples()
     int numPoints = points.size();
 
     for (int a = 0; a < numPoints; a++) {
+        for (int b = a+1; b < numPoints; b++) {
+            for (int c = b+1; c < numPoints; c++) {
+                Triple * aTriple = new Triple(points.at(a),points.at(b),points.at(c));
+                triplesList.append(aTriple);
+                Circle tempCircle = aTriple->excircle();
+                for (int d = 0; d < numPoints; d++) {
+                    if ((a != d) && (b != d) && (c != d)){
+                        if (tempCircle.internalPoint(points.at(d))) {
+                            triplesList.pop_back();
+                            delete aTriple;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return triplesList;
+}
+
+const QVector<QPair<Triple *, Triple *> > DataContainer::getNeighbours()
+{
+    // Creates list of triples without internal points (Delaunay Triangulation)
+
+    QVector<Triple*> triplesList;
+    int numPoints = points.size();
+
+    for (int a = 0; a < numPoints; a++) {
         for (int b = 0; b < numPoints; b++) {
             if(a != b) {
                 for (int c = 0; c < numPoints; c++) {
@@ -56,17 +85,15 @@ const QVector<Triple*> DataContainer::getTriples()
     }
 
     //Classifica vizinhos, para desenhar linhas entre os centros dos circulos vizinhos;
-//    QVector< pair <Triple*, Triple*>* > * neighbours = new vector< pair <Triple*, Triple*>* >();
-//    pair<Triple*, Triple*> * tempPair;
-//    for (size_t c = 0; c < triplesWithoutOtherInternalPoints->size(); c++) { //c++!!!!!
-//        for (size_t d = 0; d < triplesWithoutOtherInternalPoints->size(); d++) {
-//            if (triplesWithoutOtherInternalPoints->at(c)->isNeighbor(triplesWithoutOtherInternalPoints->at(d))){
-//                tempPair = new pair<Triple*, Triple*>(triplesWithoutOtherInternalPoints->at(c), triplesWithoutOtherInternalPoints->at(d));
-//                neighbours->push_back(tempPair);
-//            }
-//        }
-//    }
+    QVector< QPair<Triple*, Triple*> > neighbours;
+    for (int c = 0; c < triplesList.size(); c++) { //c++!!!!!
+        for (int d = 0; d < triplesList.size(); d++) {
+            if (triplesList.at(c)->isNeighbor(triplesList.at(d))){
+                neighbours.push_back(QPair<Triple*, Triple*>(triplesList.at(c), triplesList.at(d)));
+            }
+        }
+    }
 
-    return triplesList;
+    return neighbours;
 }
 

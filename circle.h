@@ -18,6 +18,8 @@ public:
     Circle(const Datum & center, double radius);
     Circle(const Circle& orig);
 
+    const Datum & getCenter() const;
+    const double & getRadius() const;
     bool internalPoint(const Datum * d) const;
 
     virtual ~Circle();

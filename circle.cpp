@@ -51,3 +51,13 @@ Circle::Circle(const Circle& orig) {
 Circle::~Circle() {
 }
 
+const Datum & Circle::getCenter() const
+{
+    return center;
+}
+
+const double & Circle::getRadius() const
+{
+    return radius;
+}
+

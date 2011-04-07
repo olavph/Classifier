@@ -2,6 +2,7 @@
 #define DATACONTAINER_H7
 
 #include <QVector>
+#include <QPair>
 
 #include "datum.h"
 #include "triple.h"
@@ -18,6 +19,7 @@ public:
     void clearData();
 
     const QVector<Triple*> getTriples();
+    const QVector< QPair<Triple*, Triple*> > getNeighbours();
 };
 
 #endif // DATACONTAINER_H

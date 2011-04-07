@@ -59,6 +59,13 @@ Datum Triple::centroid(){
     Line lineForAC(*this->a, *this->c);
     Datum result = lineForAB.intersection(lineForAC);
     return result;
+    //TODO return that?
+    //return excircle().getCenter();
+}
+
+Circle Triple::excircle()
+{
+    return Circle(a, b, c);
 }
 
 bool Triple::isNeighbor(Triple* other){

@@ -44,7 +44,7 @@
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>507</height>
+         <height>480</height>
         </rect>
        </property>
        <attribute name="label">
@@ -670,9 +670,16 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QPushButton" name="DrawDelaunayButton">
+         <widget class="QPushButton" name="DrawDelaunayTrianglesButton">
           <property name="text">
            <string>Draw Delaunay triangles</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="DrawDelaunayCirclesButton">
+          <property name="text">
+           <string>Draw Delaunay Circles</string>
           </property>
          </widget>
         </item>
@@ -691,7 +698,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>401</height>
+            <height>372</height>
            </size>
           </property>
          </spacer>
@@ -830,7 +837,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>182</x>
-     <y>538</y>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -855,7 +862,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>DrawDelaunayButton</sender>
+   <sender>DrawDelaunayTrianglesButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>drawDelaunayTriangles()</slot>
@@ -878,11 +885,27 @@
    <hints>
     <hint type="sourcelabel">
      <x>133</x>
-     <y>164</y>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
      <y>191</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>DrawDelaunayCirclesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>drawDelaunayCircles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>166</y>
     </hint>
    </hints>
   </connection>
@@ -898,5 +921,6 @@
   <slot>insertAndClassify()</slot>
   <slot>drawDelaunayTriangles()</slot>
   <slot>drawVoronoiDiagram()</slot>
+  <slot>drawDelaunayCircles()</slot>
  </slots>
 </ui>

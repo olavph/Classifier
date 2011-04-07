@@ -6,6 +6,7 @@
  */
 
 #include "datum.h"
+#include "circle.h"
 
 #ifndef TRIPLE_H
 #define	TRIPLE_H
@@ -22,6 +23,7 @@ public:
     const Datum * getB();
     const Datum * getC();
     Datum centroid();
+    Circle excircle();
     bool isNeighbor(Triple* other);
     virtual ~Triple();
 private:

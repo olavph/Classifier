@@ -197,20 +197,37 @@ void MainWindow::drawDelaunayTriangles()
         double xC = triplesWithoutOtherInternalPoints.at(f)->getC()->x();
         double yC = triplesWithoutOtherInternalPoints.at(f)->getC()->y();
 
+        qDebug("(%f,%f), (%f,%f)", triplesWithoutOtherInternalPoints.at(f)->centroid().x(), triplesWithoutOtherInternalPoints.at(f)->centroid().y(), triplesWithoutOtherInternalPoints.at(f)->excircle().getCenter().x(), triplesWithoutOtherInternalPoints.at(f)->excircle().getCenter().y());
+
         scene->addLine(xA, yA, xB, yB);
         scene->addLine(xB, yB, xC, yC);
         scene->addLine(xC, yC, xA, yA);
     }
 }
 
+void MainWindow::drawDelaunayCircles()
+{
+    QVector<Triple*> triplesWithoutOtherInternalPoints = dataContainer.getTriples();
+    for (int f = 0; f < triplesWithoutOtherInternalPoints.size(); f++) {
+        Circle circle = triplesWithoutOtherInternalPoints.at(f)->excircle();
+
+        QRect bounds(QRect(circle.getCenter().x() - circle.getRadius(),
+                    circle.getCenter().y() - circle.getRadius(),
+                    2 * circle.getRadius(),
+                    2 * circle.getRadius()));
+        scene->addEllipse(bounds);
+    }
+}
+
 void MainWindow::drawVoronoiDiagram()
 {
-//    for (size_t g = 0; g < neighbours->size(); g++) {
-//        double x1 = neighbours->at(g)->first->centroid().x();
-//        double y1 = neighbours->at(g)->first->centroid().y();
-//        double x2 = neighbours->at(g)->first->centroid().x();
-//        double y2 = neighbours->at(g)->first->centroid().y();
+    QVector< QPair<Triple*, Triple*> > neighbours = dataContainer.getNeighbours();
+    for (int g = 0; g < neighbours.size(); g++) {
+        double x1 = neighbours.at(g).first->centroid().x();
+        double y1 = neighbours.at(g).first->centroid().y();
+        double x2 = neighbours.at(g).first->centroid().x();
+        double y2 = neighbours.at(g).first->centroid().y();
 
-//        scene->addLine(x1, y1, x2, y2);
-//    }
+        scene->addLine(x1, y1, x2, y2);
+    }
 }

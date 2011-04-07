@@ -41,6 +41,7 @@ public slots:
     void openFile();
     void insertAndClassify();
     void drawDelaunayTriangles();
+    void drawDelaunayCircles();
     void drawVoronoiDiagram();
 signals:
     void fileSelected(QString);
