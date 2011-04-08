@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <property name="geometry">
@@ -665,28 +665,46 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>300</width>
+         <height>480</height>
+        </rect>
+       </property>
        <attribute name="label">
         <string>Draw</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QPushButton" name="DrawDelaunayTrianglesButton">
+         <widget class="QCheckBox" name="DrawDataPointsCheckBox">
           <property name="text">
-           <string>Draw Delaunay triangles</string>
+           <string>Data Points</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="DrawDelaunayCirclesButton">
+         <widget class="QCheckBox" name="DrawDelaunayTrianglesCheckBox">
           <property name="text">
-           <string>Draw Delaunay Circles</string>
+           <string>Delaunay Triangles</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="DrawVoronoiButton">
+         <widget class="QCheckBox" name="DrawDelaunayCirclesCheckBox">
           <property name="text">
-           <string>Draw Voronoi diagram</string>
+           <string>Delaunay Circles</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="DrawVoronoiCheckBox">
+          <property name="text">
+           <string>Voronoi Diagram</string>
           </property>
          </widget>
         </item>
@@ -740,8 +758,8 @@
    <slot>showFileDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>109</x>
-     <y>97</y>
+     <x>119</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>150</x>
@@ -760,8 +778,8 @@
      <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>78</x>
-     <y>97</y>
+     <x>88</x>
+     <y>126</y>
     </hint>
    </hints>
   </connection>
@@ -772,8 +790,8 @@
    <slot>generateRandomSet()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>120</x>
-     <y>236</y>
+     <x>110</x>
+     <y>214</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -789,7 +807,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>108</y>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -805,7 +823,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>111</y>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -821,7 +839,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>102</y>
+     <y>103</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -836,8 +854,8 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>182</x>
-     <y>511</y>
+     <x>190</x>
+     <y>527</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -852,8 +870,8 @@
    <slot>insertAndClassify()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>236</x>
-     <y>353</y>
+     <x>244</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -862,50 +880,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>DrawDelaunayTrianglesButton</sender>
-   <signal>clicked()</signal>
+   <sender>DrawDelaunayTrianglesCheckBox</sender>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>drawDelaunayTriangles()</slot>
+   <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>192</x>
-     <y>130</y>
+     <x>106</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
-     <y>113</y>
+     <y>139</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>DrawVoronoiButton</sender>
-   <signal>clicked()</signal>
+   <sender>DrawDataPointsCheckBox</sender>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>drawVoronoiDiagram()</slot>
+   <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>193</y>
+     <x>75</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
-     <x>312</x>
-     <y>191</y>
+     <x>313</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>DrawDelaunayCirclesButton</sender>
-   <signal>clicked()</signal>
+   <sender>DrawDelaunayCirclesCheckBox</sender>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>drawDelaunayCircles()</slot>
+   <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>164</y>
+     <x>84</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
-     <x>312</x>
-     <y>166</y>
+     <x>314</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>DrawVoronoiCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>redraw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>250</y>
     </hint>
    </hints>
   </connection>
@@ -922,5 +956,6 @@
   <slot>drawDelaunayTriangles()</slot>
   <slot>drawVoronoiDiagram()</slot>
   <slot>drawDelaunayCircles()</slot>
+  <slot>redraw()</slot>
  </slots>
 </ui>

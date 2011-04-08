@@ -16,7 +16,7 @@
 #define WIDTH 500
 #define HEIGHT 500
 #define GOLDEN_RATIO 1.61803398874989484820458683436563811772030917980576286213544862270526046281890244970720720418939113748475408807538689175212663386222353693179318006076672635443338908659593958290563832266131992829026788067520876689250171169620703222104321626954862629631361443814975870122034080588795445474924618569536486444924104432077134494704956584678850987433944221254487706647809158846074998871240076521705751797883416625624940758906970400028121042762177111777805315317141011704666599146697987317613560067087480710131795236894275219484353056783002287856997829778347845878228911097625003026961561700250464338243776486102838312683303724292675263116533924731671112115881863851331620384005222165791286675294654906811317159934323597349498509040947621322298101726107059611645629909816290555208524790352406020172799747175342777592778625619432082750513121815628551222480939471234145170223735805772786160086883829523045926478780178899219902707769038953219681986151437803149974110692608867429622675756052317277752035361393621076738937645560606059216589466759551900400555908950229530942312482355212212415444006470340565734797663972394949946584578873039623090375033993856210242369025138680414577995698122445747178034173126453220416397232134044449487302315417676893752103068737880344170093954409627955898678723209512426893557309704509595684401755519881921802064052905518934947592600734852282101088194644544222318891319294689622002301443770269923007803085261180754519288770502109684249362713592518760777884665836150238913493333122310533923213624319263728910670503399282265263556209029798642472759772565508615487543574826471814145127000602389016207773224499435308899909501680328112194320481964387675863314798571911397815397807476150772211750826945863932045652098969855567814106968372884058746103378105444390943683583581381131168993855576975484149144534150912954070050194775486163075422641729394680367319805861833918328599130396072014455950449779212076124785645916160837059498786006970189409886400764436170933417270919143365013715
-#define POINT_RADIUS 2
+#define POINT_RADIUS 5
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -51,10 +51,9 @@ void MainWindow::generateRandomSet()
                  ui->RandomVariableMaximumValue1->value(),
                  ui->RandomVariableMaximumValue1->value()));
     QVector<Datum*> generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
-    for(int i = 0; i < generatedPoints.size(); i++){
-        drawDatum(generatedPoints.at(i));
-    }
+
     dataContainer.addData(generatedPoints);
+    redraw();
 }
 
 void MainWindow::generateSpiral()
@@ -67,10 +66,9 @@ void MainWindow::generateSpiral()
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0));
-    for(int i = 0; i < generatedPoints.size(); i++){
-        drawDatum(generatedPoints.at(i));
-    }
+
     dataContainer.addData(generatedPoints);
+    redraw();
 }
 
 void MainWindow::generateDoubleSpiral()
@@ -83,10 +81,9 @@ void MainWindow::generateDoubleSpiral()
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0), classes.at(1));
-    for(int i = 0; i < generatedPoints.size(); i++){
-        drawDatum(generatedPoints.at(i));
-    }
+
     dataContainer.addData(generatedPoints);
+    redraw();
 }
 
 void MainWindow::clear()
@@ -94,8 +91,6 @@ void MainWindow::clear()
     dataContainer.clearData();
     scene->clear();
 }
-
-
 
 QVector<Datum*> read(QString nomeDoArquivo, int n){
     // assume-se que o arquivo de entrada seja formado por d1, d2, ..., dn, nomeDaClasse\n
@@ -137,11 +132,9 @@ QVector<Datum*> read(QString nomeDoArquivo, int n){
 void MainWindow::drawFromFile(QString f)
 {
     QVector<Datum*> readPoints = read(f, 4);
-    for(int i = 0; i < readPoints.size(); i++){
-        this->drawDatum(readPoints.at(i));
-        qDebug("%f, %f", readPoints.at(i)->getCoordinate(0), readPoints.at(i)->getCoordinate(1));
-    }
+
     dataContainer.addData(readPoints);
+    redraw();
 }
 
 
@@ -175,7 +168,7 @@ void MainWindow::insertAndClassify()
         Classifier::kNN(algorithm, k, newDatum, dataContainer.getData());
 
     dataContainer.addDatum(newDatum);
-    drawDatum(newDatum, true);
+    redraw();
 }
 
 void MainWindow::drawDatum(Datum * d, bool selected)
@@ -186,30 +179,54 @@ void MainWindow::drawDatum(Datum * d, bool selected)
     scene->addEllipse(d->getCoordinate(0)-POINT_RADIUS, d->getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, pen, QBrush(d->myOwnSuperSecretClass->getColor()));
 }
 
+void MainWindow::drawData()
+{
+    for(int i = 0; i < dataContainer.getData().size(); i++){
+        drawDatum(dataContainer.getData().at(i));
+    }
+}
+
 void MainWindow::drawDelaunayTriangles()
 {
-    QVector<Triple*> triplesWithoutOtherInternalPoints = dataContainer.getTriples();
-    for (int f = 0; f < triplesWithoutOtherInternalPoints.size(); f++) {
-        double xA = triplesWithoutOtherInternalPoints.at(f)->getA()->x();
-        double yA = triplesWithoutOtherInternalPoints.at(f)->getA()->y();
-        double xB = triplesWithoutOtherInternalPoints.at(f)->getB()->x();
-        double yB = triplesWithoutOtherInternalPoints.at(f)->getB()->y();
-        double xC = triplesWithoutOtherInternalPoints.at(f)->getC()->x();
-        double yC = triplesWithoutOtherInternalPoints.at(f)->getC()->y();
+    QVector<Triple*> triples = dataContainer.getTriples();
+    for (int f = 0; f < triples.size(); f++) {
+        double xA = triples.at(f)->getA()->x();
+        double yA = triples.at(f)->getA()->y();
+        double xB = triples.at(f)->getB()->x();
+        double yB = triples.at(f)->getB()->y();
+        double xC = triples.at(f)->getC()->x();
+        double yC = triples.at(f)->getC()->y();
 
-        qDebug("(%f,%f), (%f,%f)", triplesWithoutOtherInternalPoints.at(f)->centroid().x(), triplesWithoutOtherInternalPoints.at(f)->centroid().y(), triplesWithoutOtherInternalPoints.at(f)->excircle().getCenter().x(), triplesWithoutOtherInternalPoints.at(f)->excircle().getCenter().y());
+        qDebug("(%f,%f), (%f,%f)", triples.at(f)->centroid().x(), triples.at(f)->centroid().y(), triples.at(f)->excircle().getCenter().x(), triples.at(f)->excircle().getCenter().y());
 
-        scene->addLine(xA, yA, xB, yB);
-        scene->addLine(xB, yB, xC, yC);
-        scene->addLine(xC, yC, xA, yA);
+
+        if (triples.at(f)->isBorder()){
+            double xw1 = triples.at(f)->toInfinityAndBeyondPoint().x();
+            double yw1 = triples.at(f)->toInfinityAndBeyondPoint().y();
+            //double xw1 = triples.at(f)->medianPointAtBorderEdge().x();
+            //double yw1 = triples.at(f)->medianPointAtBorderEdge().y();
+            //double xw2 = triples.at(f)->uniqueNoBorderPoint().x();
+            //double yw2 = triples.at(f)->uniqueNoBorderPoint().y();
+            scene->addEllipse(xw1-1,yw1-1,2,2, QPen(QColor(255,0,255)));
+            //scene->addEllipse(xw2-1,yw2-1,2,2);
+            //scene->addLine(xw1, yw1,xw2,yw2);
+        }
+
+
+        scene->addLine(xA, yA, xB, yB, QPen(QColor(102,111,208)));
+        scene->addLine(xB, yB, xC, yC, QPen(QColor(102,111,208)));
+        scene->addLine(xC, yC, xA, yA, QPen(QColor(102,111,208)));
+
+
+
     }
 }
 
 void MainWindow::drawDelaunayCircles()
 {
-    QVector<Triple*> triplesWithoutOtherInternalPoints = dataContainer.getTriples();
-    for (int f = 0; f < triplesWithoutOtherInternalPoints.size(); f++) {
-        Circle circle = triplesWithoutOtherInternalPoints.at(f)->excircle();
+    QVector<Triple*> triples = dataContainer.getTriples();
+    for (int f = 0; f < triples.size(); f++) {
+        Circle circle = triples.at(f)->excircle();
 
         QRect bounds(QRect(circle.getCenter().x() - circle.getRadius(),
                     circle.getCenter().y() - circle.getRadius(),
@@ -221,13 +238,31 @@ void MainWindow::drawDelaunayCircles()
 
 void MainWindow::drawVoronoiDiagram()
 {
-    QVector< QPair<Triple*, Triple*> > neighbours = dataContainer.getNeighbours();
-    for (int g = 0; g < neighbours.size(); g++) {
-        double x1 = neighbours.at(g).first->centroid().x();
-        double y1 = neighbours.at(g).first->centroid().y();
-        double x2 = neighbours.at(g).first->centroid().x();
-        double y2 = neighbours.at(g).first->centroid().y();
-
-        scene->addLine(x1, y1, x2, y2);
+    QVector<Triple*> triples = dataContainer.getTriples();
+    for (int f = 0; f < triples.size(); f++) {
+        Triple * currentTriple = triples.at(f);
+        for (int g = 0; g < currentTriple->getNeighbors().size(); g++) {
+            double x1 = currentTriple->centroid().x();
+            double y1 = currentTriple->centroid().y();
+            double x2 = currentTriple->getNeighbors().at(g)->centroid().x();
+            double y2 = currentTriple->getNeighbors().at(g)->centroid().y();
+            scene->addLine(x1, y1, x2, y2);
+            if (currentTriple->isBorder()){
+                scene->addLine(x1, y1, currentTriple->toInfinityAndBeyondPoint().x(), currentTriple->toInfinityAndBeyondPoint().y());
+            }
+        }
     }
+}
+
+void MainWindow::redraw()
+{
+    scene->clear();
+    if (ui->DrawDataPointsCheckBox->isChecked())
+        drawData();
+    if (ui->DrawDelaunayTrianglesCheckBox->isChecked())
+        drawDelaunayTriangles();
+    if (ui->DrawDelaunayCirclesCheckBox->isChecked())
+        drawDelaunayCircles();
+    if (ui->DrawVoronoiCheckBox->isChecked())
+        drawVoronoiDiagram();
 }

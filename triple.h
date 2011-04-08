@@ -13,7 +13,7 @@
 
 class Triple {
 public:
-    Triple(){};
+    Triple(){}
     Triple(const Datum * a, const Datum * b, const Datum * c);
     Triple(const Triple& orig);
     Datum medianPointAB();
@@ -24,9 +24,18 @@ public:
     const Datum * getC();
     Datum centroid();
     Circle excircle();
+    const QVector<Triple*> getNeighbors() const;
     bool isNeighbor(Triple* other);
+    void findNeighbors(const QVector<Triple*> & others);
+    bool isBorder() const;
+    bool containsPoint(const Datum* datum) const;
+    Datum uniqueNoBorderPoint();
+    Datum medianPointAtBorderEdge();
+    double cosenoVec(const Datum* datum);
+    Datum toInfinityAndBeyondPoint(); //this should be executed only if this is a border triple!!!
     virtual ~Triple();
 private:
+    QVector<Triple*> neighbors;
     Datum medianPointAtSegment(const Datum * a, const Datum * b);
 protected:
     const Datum * a;

@@ -19,7 +19,7 @@ Circle::Circle(const Datum * a, const Datum * b, const Datum * c){
 }
 
 void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2, double x3, double y3){
-    int a,b, C, A, W, h, r;
+    double a,b, C, A, W, h, r;
 
     A = (x1*x1-x2*x2+y1*y1-y2*y2)/(x1-x2);
     C = x1*x1-x3*x3+y1*y1-y3*y3;

@@ -40,9 +40,11 @@ public slots:
     void clear();
     void openFile();
     void insertAndClassify();
+    void drawData();
     void drawDelaunayTriangles();
     void drawDelaunayCircles();
     void drawVoronoiDiagram();
+    void redraw();
 signals:
     void fileSelected(QString);
 };
