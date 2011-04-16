@@ -32,6 +32,7 @@ HEADERS  += mainwindow.h \
     line.h \
     manhattandistance.h \
     triple.h \
-    datacontainer.h
+    datacontainer.h \
+    singleton.h
 
 FORMS    += mainwindow.ui

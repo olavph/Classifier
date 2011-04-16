@@ -11,6 +11,7 @@
 #include "triple.h"
 #include "circle.h"
 #include "line.h"
+#include "singleton.h"
 
 
 #define WIDTH 500
@@ -157,9 +158,9 @@ void MainWindow::insertAndClassify()
 
     DistanceCalculation * algorithm;
     if(ui->EuclidianRadioButton->isChecked())
-        algorithm = new EuclidianDistance();
+        algorithm = Singleton<EuclidianDistance>::instance();
     else if(ui->ManhattanRadioButton->isChecked())
-        algorithm = new ManhattanDistance();
+        algorithm = Singleton<ManhattanDistance>::instance();
 
     size_t k = ui->kNNSpinBox->value();
     if(ui->NNRadioButton->isChecked())
