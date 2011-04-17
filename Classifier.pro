@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     line.cpp \
     datum.cpp \
     triple.cpp \
-    datacontainer.cpp
+    datacontainer.cpp \
+    ibl/ibl2.cpp \
+    ibl/ibl1.cpp
 
 HEADERS  += mainwindow.h \
     circle.h \
@@ -33,6 +35,9 @@ HEADERS  += mainwindow.h \
     manhattandistance.h \
     triple.h \
     datacontainer.h \
-    singleton.h
+    singleton.h \
+    ibl/ibl2.h \
+    ibl/ibl1.h \
+    ibl/ibl.h
 
 FORMS    += mainwindow.ui

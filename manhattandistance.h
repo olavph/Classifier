@@ -8,7 +8,7 @@ class ManhattanDistance : public DistanceCalculation
 {
 public:
     ManhattanDistance() {};
-    double distance(const Datum * d1, const Datum * d2)
+    double distance(const Datum * d1, const Datum * d2) const
     {
         double manhattanDistance = 0;
         if (d1->getDimensions() != d2->getDimensions()){

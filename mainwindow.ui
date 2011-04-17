@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page">
        <property name="geometry">
@@ -688,6 +688,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="DrawIncorrectlyClassifiedDataCheckBox">
+          <property name="text">
+           <string>Incorrectly classified data</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="DrawDelaunayTrianglesCheckBox">
           <property name="text">
            <string>Delaunay Triangles</string>
@@ -758,8 +765,8 @@
    <slot>showFileDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>126</y>
+     <x>109</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
      <x>150</x>
@@ -778,8 +785,8 @@
      <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>88</x>
-     <y>126</y>
+     <x>78</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>
@@ -807,7 +814,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>109</y>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -823,7 +830,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>112</y>
+     <y>111</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -839,7 +846,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>103</y>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -870,7 +877,7 @@
    <slot>insertAndClassify()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>244</x>
+     <x>252</x>
      <y>367</y>
     </hint>
     <hint type="destinationlabel">
@@ -886,8 +893,8 @@
    <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>106</x>
-     <y>154</y>
+     <x>114</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -902,8 +909,8 @@
    <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>75</x>
-     <y>126</y>
+     <x>83</x>
+     <y>136</y>
     </hint>
     <hint type="destinationlabel">
      <x>313</x>
@@ -918,8 +925,8 @@
    <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>84</x>
-     <y>177</y>
+     <x>92</x>
+     <y>205</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -934,12 +941,28 @@
    <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>59</x>
-     <y>201</y>
+     <x>67</x>
+     <y>228</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
      <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>DrawIncorrectlyClassifiedDataCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>redraw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>

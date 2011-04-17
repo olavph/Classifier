@@ -12,6 +12,7 @@
 #include "circle.h"
 #include "line.h"
 #include "singleton.h"
+#include "ibl/ibl1.h"
 
 
 #define WIDTH 500
@@ -187,6 +188,16 @@ void MainWindow::drawData()
     }
 }
 
+void MainWindow::drawIncorrectlyClassifiedData()
+{
+    IBL1 ibl;
+    ibl.train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
+    qDebug("Incorrects: %d", ibl.numberOfIncorrectlyClassified());
+    for(int i = 0; i < ibl.incorrectlyClassifiedData().size(); i++){
+        drawDatum(ibl.incorrectlyClassifiedData().at(i), true);
+    }
+}
+
 void MainWindow::drawDelaunayTriangles()
 {
     QVector<Triple*> triples = dataContainer.getTriples();
@@ -260,6 +271,8 @@ void MainWindow::redraw()
     scene->clear();
     if (ui->DrawDataPointsCheckBox->isChecked())
         drawData();
+    if (ui->DrawIncorrectlyClassifiedDataCheckBox->isChecked())
+        drawIncorrectlyClassifiedData();
     if (ui->DrawDelaunayTrianglesCheckBox->isChecked())
         drawDelaunayTriangles();
     if (ui->DrawDelaunayCirclesCheckBox->isChecked())

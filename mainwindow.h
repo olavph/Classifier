@@ -41,6 +41,7 @@ public slots:
     void openFile();
     void insertAndClassify();
     void drawData();
+    void drawIncorrectlyClassifiedData();
     void drawDelaunayTriangles();
     void drawDelaunayCircles();
     void drawVoronoiDiagram();

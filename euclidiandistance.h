@@ -8,7 +8,7 @@ class EuclidianDistance : public DistanceCalculation
 {
 public:
     EuclidianDistance() {};
-    double distance(const Datum * d1, const Datum * d2)
+    double distance(const Datum * d1, const Datum * d2) const
     {
         double euclidianDistance = 0;
         if (d1->getDimensions() != d2->getDimensions()){
