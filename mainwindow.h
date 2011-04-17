@@ -11,6 +11,7 @@
 
 #include "datacontainer.h"
 #include "class.h"
+#include "ibl/ibl.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ class MainWindow : public QMainWindow
 public:
     DataContainer dataContainer;
     QVector<Class*> classes;
+    IBL * ibl;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -40,7 +42,9 @@ public slots:
     void clear();
     void openFile();
     void insertAndClassify();
+    void trainWithData();
     void drawData();
+    void drawConceptualDescriptor();
     void drawIncorrectlyClassifiedData();
     void drawDelaunayTriangles();
     void drawDelaunayCircles();

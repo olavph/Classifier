@@ -44,7 +44,7 @@
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>480</height>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
@@ -54,7 +54,7 @@
         <item>
          <widget class="QTabWidget" name="GenerateDataTabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
@@ -502,7 +502,7 @@
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>480</height>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
@@ -664,13 +664,80 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page_4">
+       <attribute name="label">
+        <string>Instance Based Learning</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QGroupBox" name="IBLAlgorithmGroupBox">
+          <property name="title">
+           <string>Algorithm</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm1RadioButton">
+             <property name="text">
+              <string>IBL1</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm2RadioButton">
+             <property name="text">
+              <string>IBL2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm3RadioButton">
+             <property name="text">
+              <string>IBL3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm4RadioButton">
+             <property name="text">
+              <string>IBL4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="IBLTrainButton">
+          <property name="text">
+           <string>Train</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>278</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="page_3">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>480</height>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
@@ -684,6 +751,13 @@
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="DrawConceptualDescriptorCheckBox">
+          <property name="text">
+           <string>Conceptual descriptor</string>
           </property>
          </widget>
         </item>
@@ -862,7 +936,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>190</x>
-     <y>527</y>
+     <y>500</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -894,7 +968,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>114</x>
-     <y>182</y>
+     <y>232</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -910,7 +984,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>83</x>
-     <y>136</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
      <x>313</x>
@@ -926,7 +1000,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>92</x>
-     <y>205</y>
+     <y>255</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -942,7 +1016,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>67</x>
-     <y>228</y>
+     <y>278</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -958,11 +1032,43 @@
    <hints>
     <hint type="sourcelabel">
      <x>71</x>
-     <y>156</y>
+     <y>206</y>
     </hint>
     <hint type="destinationlabel">
      <x>313</x>
      <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>DrawConceptualDescriptorCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>redraw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>253</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IBLTrainButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>trainWithData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>230</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>284</y>
     </hint>
    </hints>
   </connection>
@@ -980,5 +1086,6 @@
   <slot>drawVoronoiDiagram()</slot>
   <slot>drawDelaunayCircles()</slot>
   <slot>redraw()</slot>
+  <slot>trainWithData()</slot>
  </slots>
 </ui>

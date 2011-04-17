@@ -13,6 +13,7 @@
 #include "line.h"
 #include "singleton.h"
 #include "ibl/ibl1.h"
+#include "ibl/ibl2.h"
 
 
 #define WIDTH 500
@@ -32,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     Class * d = new Class(QColor(0,255,0), "b");
     classes.push_back(c);
     classes.push_back(d);
+
+    ibl = new IBL1();
 }
 
 MainWindow::~MainWindow()
@@ -173,6 +176,18 @@ void MainWindow::insertAndClassify()
     redraw();
 }
 
+void MainWindow::trainWithData()
+{
+    delete ibl;
+    if (ui->IBLAlgorithm1RadioButton->isChecked())
+        ibl = new IBL1();
+    else if (ui->IBLAlgorithm2RadioButton->isChecked())
+        ibl = new IBL2();
+
+    ibl->train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
+    redraw();
+}
+
 void MainWindow::drawDatum(Datum * d, bool selected)
 {
     QPen pen;
@@ -188,13 +203,17 @@ void MainWindow::drawData()
     }
 }
 
+void MainWindow::drawConceptualDescriptor()
+{
+    for(int i = 0; i < ibl->conceptualDescriptor().size(); i++){
+        drawDatum(ibl->conceptualDescriptor().at(i));
+    }
+}
+
 void MainWindow::drawIncorrectlyClassifiedData()
 {
-    IBL1 ibl;
-    ibl.train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
-    qDebug("Incorrects: %d", ibl.numberOfIncorrectlyClassified());
-    for(int i = 0; i < ibl.incorrectlyClassifiedData().size(); i++){
-        drawDatum(ibl.incorrectlyClassifiedData().at(i), true);
+    for(int i = 0; i < ibl->incorrectlyClassifiedData().size(); i++){
+        drawDatum(ibl->incorrectlyClassifiedData().at(i), true);
     }
 }
 
@@ -271,6 +290,8 @@ void MainWindow::redraw()
     scene->clear();
     if (ui->DrawDataPointsCheckBox->isChecked())
         drawData();
+    if (ui->DrawConceptualDescriptorCheckBox->isChecked())
+        drawConceptualDescriptor();
     if (ui->DrawIncorrectlyClassifiedDataCheckBox->isChecked())
         drawIncorrectlyClassifiedData();
     if (ui->DrawDelaunayTrianglesCheckBox->isChecked())
