@@ -228,22 +228,6 @@ void MainWindow::drawDelaunayTriangles()
         double xC = triples.at(f)->getC()->x();
         double yC = triples.at(f)->getC()->y();
 
-        qDebug("(%f,%f), (%f,%f)", triples.at(f)->centroid().x(), triples.at(f)->centroid().y(), triples.at(f)->excircle().getCenter().x(), triples.at(f)->excircle().getCenter().y());
-
-
-        if (triples.at(f)->isBorder()){
-            double xw1 = triples.at(f)->toInfinityAndBeyondPoint().x();
-            double yw1 = triples.at(f)->toInfinityAndBeyondPoint().y();
-            //double xw1 = triples.at(f)->medianPointAtBorderEdge().x();
-            //double yw1 = triples.at(f)->medianPointAtBorderEdge().y();
-            //double xw2 = triples.at(f)->uniqueNoBorderPoint().x();
-            //double yw2 = triples.at(f)->uniqueNoBorderPoint().y();
-            scene->addEllipse(xw1-1,yw1-1,2,2, QPen(QColor(255,0,255)));
-            //scene->addEllipse(xw2-1,yw2-1,2,2);
-            //scene->addLine(xw1, yw1,xw2,yw2);
-        }
-
-
         scene->addLine(xA, yA, xB, yB, QPen(QColor(102,111,208)));
         scene->addLine(xB, yB, xC, yC, QPen(QColor(102,111,208)));
         scene->addLine(xC, yC, xA, yA, QPen(QColor(102,111,208)));

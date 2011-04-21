@@ -54,7 +54,7 @@
         <item>
          <widget class="QTabWidget" name="GenerateDataTabWidget">
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
@@ -501,8 +501,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>300</width>
-         <height>453</height>
+         <width>157</width>
+         <height>299</height>
         </rect>
        </property>
        <attribute name="label">
@@ -665,6 +665,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>300</width>
+         <height>453</height>
+        </rect>
+       </property>
        <attribute name="label">
         <string>Instance Based Learning</string>
        </attribute>
@@ -694,6 +702,9 @@
            </item>
            <item>
             <widget class="QRadioButton" name="IBLAlgorithm3RadioButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>IBL3</string>
              </property>
@@ -701,6 +712,9 @@
            </item>
            <item>
             <widget class="QRadioButton" name="IBLAlgorithm4RadioButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>IBL4</string>
              </property>
@@ -736,8 +750,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>300</width>
-         <height>453</height>
+         <width>164</width>
+         <height>156</height>
         </rect>
        </property>
        <attribute name="label">

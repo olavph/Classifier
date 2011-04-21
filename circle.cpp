@@ -8,17 +8,21 @@
 #include "circle.h"
 #include "classifier.h"
 #include "euclidiandistance.h"
+#include "singleton.h"
 #include <math.h>
 
-Circle::Circle(double x1, double y1, double x2, double y2, double x3, double y3){
+Circle::Circle(double x1, double y1, double x2, double y2, double x3, double y3)
+{
     this->calculateCircleEquation(x1,y1,x2,y2,x3,y3);
 }
 
-Circle::Circle(const Datum * a, const Datum * b, const Datum * c){
+Circle::Circle(const Datum * a, const Datum * b, const Datum * c)
+{
     this->calculateCircleEquation(a->x(),a->y(),b->x(),b->y(),c->x(),c->y());
 }
 
-void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2, double x3, double y3){
+void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2, double x3, double y3)
+{
     double a,b, C, A, W, h, r;
 
     A = (x1*x1-x2*x2+y1*y1-y2*y2)/(x1-x2);
@@ -35,20 +39,25 @@ void Circle::calculateCircleEquation(double x1, double y1, double x2, double y2,
     this->radius = r;
 }
 
-Circle::Circle(const Datum & c, double r){
+Circle::Circle(const Datum & c, double r)
+{
     center = c;
     radius = r;
 }
 
-bool Circle::internalPoint(const Datum * d) const{
-    return (new EuclidianDistance())->distance(&center, d) <= radius;
+bool Circle::internalPoint(const Datum * d) const
+{
+    EuclidianDistance* euDist = Singleton<EuclidianDistance>::instance();
+    return euDist->distance(&center, d) <= radius;
 }
 
 
-Circle::Circle(const Circle& orig) {
+Circle::Circle(const Circle& orig)
+{
 }
 
-Circle::~Circle() {
+Circle::~Circle()
+{
 }
 
 const Datum & Circle::getCenter() const

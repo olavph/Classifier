@@ -23,7 +23,7 @@ public:
     Class * myOwnSuperSecretClass; //TODO refactor!
 
 private:
-    QVector<double> * coordinates;
+    QVector<double> coordinates;
 };
 
 #endif // DATUM_H
