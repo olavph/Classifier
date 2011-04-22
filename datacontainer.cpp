@@ -37,7 +37,7 @@ const QVector<Triple*> DataContainer::getTriples()
             for (int c = b+1; c < numPoints; c++) {
                 Triple * aTriple = new Triple(points.at(a),points.at(b),points.at(c));
                 triplesList.append(aTriple);
-                Circle tempCircle = aTriple->excircle();
+                Circle tempCircle = aTriple->circumcircle();
                 for (int d = 0; d < numPoints; d++) {
                     if ((a != d) && (b != d) && (c != d)){
                         if (tempCircle.internalPoint(points.at(d))) {

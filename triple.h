@@ -23,7 +23,7 @@ public:
     const Datum * getB();
     const Datum * getC();
     Datum centroid();
-    Circle excircle();
+    Circle circumcircle();
     const QVector<Triple*> getNeighbors() const;
     bool isNeighbor(Triple* other);
     void findNeighbors(const QVector<Triple*> & others);

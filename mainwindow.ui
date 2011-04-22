@@ -43,8 +43,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>300</width>
-         <height>453</height>
+         <width>277</width>
+         <height>355</height>
         </rect>
        </property>
        <attribute name="label">
@@ -702,9 +702,6 @@
            </item>
            <item>
             <widget class="QRadioButton" name="IBLAlgorithm3RadioButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
              <property name="text">
               <string>IBL3</string>
              </property>

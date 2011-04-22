@@ -6,11 +6,13 @@ IBL2::IBL2()
 
 void IBL2::train(const QVector<Datum *> trainSet, const DistanceCalculation * dc)
 {
+    _conceptualDescriptor.clear();
+    _incorrectlyClassifiedData.clear();
     foreach (Datum * underTraining, trainSet) {
         Datum * mostSimilar = NULL;
         double greaterSimilarity = INT_MIN;
         foreach (Datum * added, _conceptualDescriptor) {
-            double currentSimilarity = -dc->distance(underTraining, added);
+            double currentSimilarity = similarity(underTraining, added, dc);
             if (currentSimilarity > greaterSimilarity) {
                 mostSimilar = added;
                 greaterSimilarity = currentSimilarity;

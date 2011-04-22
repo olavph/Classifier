@@ -61,10 +61,10 @@ Datum Triple::centroid(){
 //    Datum result = lineForAB.intersection(lineForAC);
 //    return result;
     //TODO return that?
-    return excircle().getCenter();
+    return circumcircle().getCenter();
 }
 
-Circle Triple::excircle()
+Circle Triple::circumcircle()
 {
     return Circle(a, b, c);
 }

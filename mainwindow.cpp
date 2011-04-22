@@ -14,6 +14,7 @@
 #include "singleton.h"
 #include "ibl/ibl1.h"
 #include "ibl/ibl2.h"
+#include "ibl/ibl3.h"
 
 
 #define WIDTH 500
@@ -183,6 +184,8 @@ void MainWindow::trainWithData()
         ibl = new IBL1();
     else if (ui->IBLAlgorithm2RadioButton->isChecked())
         ibl = new IBL2();
+    else if (ui->IBLAlgorithm3RadioButton->isChecked())
+        ibl = new IBL3();
 
     ibl->train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
     redraw();
@@ -241,7 +244,7 @@ void MainWindow::drawDelaunayCircles()
 {
     QVector<Triple*> triples = dataContainer.getTriples();
     for (int f = 0; f < triples.size(); f++) {
-        Circle circle = triples.at(f)->excircle();
+        Circle circle = triples.at(f)->circumcircle();
 
         QRect bounds(QRect(circle.getCenter().x() - circle.getRadius(),
                     circle.getCenter().y() - circle.getRadius(),
