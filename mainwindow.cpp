@@ -155,7 +155,7 @@ void MainWindow::openFile()
     }
 }
 
-void MainWindow::insertAndClassify()
+void MainWindow::addDatum()
 {
     double x = ui->AddDataXSpinBox->value();
     double y = ui->AddDataYSpinBox->value();
@@ -177,6 +177,30 @@ void MainWindow::insertAndClassify()
     redraw();
 }
 
+void MainWindow::fillDrawArea()
+{
+    DistanceCalculation * algorithm;
+    if(ui->EuclidianRadioButton->isChecked())
+        algorithm = Singleton<EuclidianDistance>::instance();
+    else if(ui->ManhattanRadioButton->isChecked())
+        algorithm = Singleton<ManhattanDistance>::instance();
+
+    size_t k = ui->kNNSpinBox->value();
+
+    for (int i = 0; i < WIDTH; i+=2) {
+        for (int j = 0; j < HEIGHT; j+=2) {
+            Datum * newDatum = new Datum(i, j);
+            if(ui->NNRadioButton->isChecked())
+                Classifier::nN(algorithm, newDatum, ibl->conceptualDescriptor());
+            else if(ui->kNNRadioButton->isChecked())
+                Classifier::kNN(algorithm, k, newDatum, ibl->conceptualDescriptor());
+            dataContainer.addDatum(newDatum);
+        }
+    }
+
+    redraw();
+}
+
 void MainWindow::trainWithData()
 {
     delete ibl;
@@ -188,35 +212,40 @@ void MainWindow::trainWithData()
         ibl = new IBL3();
 
     ibl->train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
+    dataContainer.clearData();
     redraw();
 }
 
-void MainWindow::drawDatum(Datum * d, bool selected)
+void MainWindow::drawDatum(Datum * d, QColor color)
 {
-    QPen pen;
-    if (!selected)
-        pen.setColor(d->myOwnSuperSecretClass->getColor());
+    QPen pen(color);
     scene->addEllipse(d->getCoordinate(0)-POINT_RADIUS, d->getCoordinate(1)-POINT_RADIUS, POINT_RADIUS*2, POINT_RADIUS*2, pen, QBrush(d->myOwnSuperSecretClass->getColor()));
+}
+
+void MainWindow::drawPixel(Datum * d)
+{
+    QPen pen(d->myOwnSuperSecretClass->getColor());
+    scene->addLine(d->x(), d->y(), d->x(), d->y(), pen);
 }
 
 void MainWindow::drawData()
 {
     for(int i = 0; i < dataContainer.getData().size(); i++){
-        drawDatum(dataContainer.getData().at(i));
+        drawPixel(dataContainer.getData().at(i));
     }
 }
 
 void MainWindow::drawConceptualDescriptor()
 {
     for(int i = 0; i < ibl->conceptualDescriptor().size(); i++){
-        drawDatum(ibl->conceptualDescriptor().at(i));
+        drawDatum(ibl->conceptualDescriptor().at(i), QColor(Qt::black));
     }
 }
 
 void MainWindow::drawIncorrectlyClassifiedData()
 {
     for(int i = 0; i < ibl->incorrectlyClassifiedData().size(); i++){
-        drawDatum(ibl->incorrectlyClassifiedData().at(i), true);
+        drawDatum(ibl->incorrectlyClassifiedData().at(i), QColor(Qt::red));
     }
 }
 

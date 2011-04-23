@@ -29,7 +29,8 @@ public:
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void drawDatum(Datum * d, bool selected = false);
+    void drawPixel(Datum * d);
+    void drawDatum(Datum * d, QColor color = Qt::transparent);
     void drawFromFile(QString f);
 private:
     Ui::MainWindow *ui;
@@ -41,7 +42,8 @@ public slots:
     void generateDoubleSpiral();
     void clear();
     void openFile();
-    void insertAndClassify();
+    void addDatum();
+    void fillDrawArea();
     void trainWithData();
     void drawData();
     void drawConceptualDescriptor();

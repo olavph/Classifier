@@ -36,15 +36,15 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>277</width>
-         <height>355</height>
+         <width>300</width>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
@@ -501,12 +501,12 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>157</width>
-         <height>299</height>
+         <width>300</width>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
-        <string>Add data</string>
+        <string>Classify data</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
@@ -639,13 +639,20 @@
              </item>
             </layout>
            </item>
+           <item>
+            <widget class="QPushButton" name="InsertAndClassifyButton">
+             <property name="text">
+              <string>Add datum</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="InsertAndClassifyButton">
+         <widget class="QPushButton" name="FillDrawAreaButton">
           <property name="text">
-           <string>Insert and classify</string>
+           <string>Fill draw area (slooooooow)</string>
           </property>
          </widget>
         </item>
@@ -747,8 +754,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>164</width>
-         <height>156</height>
+         <width>300</width>
+         <height>453</height>
         </rect>
        </property>
        <attribute name="label">
@@ -850,8 +857,8 @@
    <slot>showFileDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>109</x>
-     <y>97</y>
+     <x>119</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>150</x>
@@ -870,8 +877,8 @@
      <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>78</x>
-     <y>97</y>
+     <x>88</x>
+     <y>126</y>
     </hint>
    </hints>
   </connection>
@@ -883,7 +890,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>214</y>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -899,7 +906,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>108</y>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -915,7 +922,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>111</y>
+     <y>331</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -931,7 +938,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>110</x>
-     <y>102</y>
+     <y>103</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -946,7 +953,7 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>190</x>
+     <x>198</x>
      <y>500</y>
     </hint>
     <hint type="destinationlabel">
@@ -1083,6 +1090,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>FillDrawAreaButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>fillDrawArea()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>410</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>fileSelected(QString)</signal>
@@ -1098,5 +1121,6 @@
   <slot>drawDelaunayCircles()</slot>
   <slot>redraw()</slot>
   <slot>trainWithData()</slot>
+  <slot>fillDrawArea()</slot>
  </slots>
 </ui>
