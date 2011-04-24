@@ -15,6 +15,7 @@
 #include "ibl/ibl1.h"
 #include "ibl/ibl2.h"
 #include "ibl/ibl3.h"
+#include "ibl/ibl4.h"
 
 
 #define WIDTH 500
@@ -209,6 +210,8 @@ void MainWindow::trainWithData()
         ibl = new IBL2();
     else if (ui->IBLAlgorithm3RadioButton->isChecked())
         ibl = new IBL3();
+    else if (ui->IBLAlgorithm4RadioButton->isChecked())
+        ibl = new IBL4();
 
     ibl->train(dataContainer.getData(), Singleton<EuclidianDistance>::instance());
     dataContainer.clearData();

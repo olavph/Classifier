@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <property name="geometry">
@@ -344,6 +344,9 @@
                  <property name="maximum">
                   <number>999999999</number>
                  </property>
+                 <property name="value">
+                  <number>20</number>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -493,6 +496,81 @@
            <string>Clear</string>
           </property>
          </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>300</width>
+         <height>453</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Instance Based Learning</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QGroupBox" name="IBLAlgorithmGroupBox">
+          <property name="title">
+           <string>Algorithm</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm1RadioButton">
+             <property name="text">
+              <string>IBL1</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm2RadioButton">
+             <property name="text">
+              <string>IBL2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm3RadioButton">
+             <property name="text">
+              <string>IBL3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="IBLAlgorithm4RadioButton">
+             <property name="text">
+              <string>IBL4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="IBLTrainButton">
+          <property name="text">
+           <string>Train</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>278</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -671,91 +749,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_4">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>300</width>
-         <height>453</height>
-        </rect>
-       </property>
-       <attribute name="label">
-        <string>Instance Based Learning</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
-        <item>
-         <widget class="QGroupBox" name="IBLAlgorithmGroupBox">
-          <property name="title">
-           <string>Algorithm</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <item>
-            <widget class="QRadioButton" name="IBLAlgorithm1RadioButton">
-             <property name="text">
-              <string>IBL1</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="IBLAlgorithm2RadioButton">
-             <property name="text">
-              <string>IBL2</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="IBLAlgorithm3RadioButton">
-             <property name="text">
-              <string>IBL3</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="IBLAlgorithm4RadioButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>IBL4</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="IBLTrainButton">
-          <property name="text">
-           <string>Train</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>278</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="page_3">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>300</width>
-         <height>453</height>
+         <width>164</width>
+         <height>156</height>
         </rect>
        </property>
        <attribute name="label">

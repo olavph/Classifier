@@ -24,20 +24,28 @@ void ClassificationRecord::incrementIncorrects()
     incorrects ++;
 }
 
+double ClassificationRecord::total() const
+{
+    return corrects + incorrects;
+}
+
+double ClassificationRecord::ratio() const
+{
+    return corrects / total();
+}
 
 double ClassificationRecord::lowerLimit() const
 {
-    double n = corrects + incorrects;
-    double p = corrects / (n);
+    double n = total();
+    double p = ratio();
 
     return (p + (z*z) / (2*n) - z * sqrt( p*(1-p) / n + (z*z) / (4*(n*n))) ) / (1 + (z*z) / n);
 }
 
 double ClassificationRecord::upperLimit() const
 {
-    double n = corrects + incorrects;
-    double p = corrects / (n);
+    double n = total();
+    double p = ratio();
 
     return (p + (z*z) / (2*n) + z * sqrt( p*(1-p) / n + (z*z) / (4*(n*n))) ) / (1 + (z*z) / n);
 }
-

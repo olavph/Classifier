@@ -12,6 +12,8 @@ public:
     ClassificationRecord(double z);
     void incrementCorrects();
     void incrementIncorrects();
+    double total() const;
+    double ratio() const;
     double lowerLimit() const;
     double upperLimit() const;
 };

@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     ibl/ibl1.cpp \
     ibl/ibl3.cpp \
     ibl/ibl.cpp \
-    ibl/classificationrecord.cpp
+    ibl/classificationrecord.cpp \
+    ibl/ibl4.cpp
 
 HEADERS  += mainwindow.h \
     circle.h \
@@ -43,6 +44,7 @@ HEADERS  += mainwindow.h \
     ibl/ibl1.h \
     ibl/ibl.h \
     ibl/ibl3.h \
-    ibl/classificationrecord.h
+    ibl/classificationrecord.h \
+    ibl/ibl4.h
 
 FORMS    += mainwindow.ui
