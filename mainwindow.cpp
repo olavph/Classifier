@@ -56,7 +56,7 @@ void MainWindow::generateRandomSet()
                  ui->RandomVariableMinimumValue1->value(),
                  ui->RandomVariableMaximumValue1->value(),
                  ui->RandomVariableMaximumValue1->value()));
-    QVector<Datum*> generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
+    QSet<Datum*> generatedPoints = Generator::randomSet(ui->RandomNumberOfPointsSpinBox->value(), bounds, classes);
 
     dataContainer.addData(generatedPoints);
     redraw();
@@ -68,7 +68,7 @@ void MainWindow::generateSpiral()
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum*> generatedPoints = Generator::spiral(bounds,
+    QSet<Datum*> generatedPoints = Generator::spiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0));
@@ -83,7 +83,7 @@ void MainWindow::generateDoubleSpiral()
                  ui->SpiralMinimumYSpinBox->value(),
                  ui->SpiralMaximumXSpinBox->value(),
                  ui->SpiralMaximumYSpinBox->value()));
-    QVector<Datum*> generatedPoints = Generator::doubleSpiral(bounds,
+    QSet<Datum*> generatedPoints = Generator::doubleSpiral(bounds,
                                                 ui->SpiralRadiusBaseSpinBox->value(),
                                                 ui->SpiralRadiusIncreaseFactorSpinBox->value(),
                                                 0, ui->SpiralNoiseSpinBox->value(), classes.at(0), classes.at(1));
@@ -98,7 +98,7 @@ void MainWindow::clear()
     scene->clear();
 }
 
-QVector<Datum*> read(QString nomeDoArquivo, int n){
+QSet<Datum*> read(QString nomeDoArquivo, int n){
     // assume-se que o arquivo de entrada seja formado por d1, d2, ..., dn, nomeDaClasse\n
     ifstream fp_in;  // declarations of streams fp_in
     string arq = nomeDoArquivo.toStdString();
@@ -132,12 +132,12 @@ QVector<Datum*> read(QString nomeDoArquivo, int n){
 
     fp_in.close();   // close the streams
 
-    return result;
+    return QSet<Datum*>::fromList(QList<Datum*>::fromVector(result));
 }
 
 void MainWindow::drawFromFile(QString f)
 {
-    QVector<Datum*> readPoints = read(f, 4);
+    QSet<Datum*> readPoints = read(f, 4);
 
     dataContainer.addData(readPoints);
     redraw();
@@ -149,10 +149,9 @@ void MainWindow::openFile()
     QString filePath = ui->FilePathTextBox->text();
     if(filePath.size() == 0)
         return;
-    QVector<Datum*> points = read(filePath, 4);
-    for(int i = 0; i < points.size(); i++){
-        drawDatum(points.at(i));
-    }
+    QSet<Datum*> points = read(filePath, 4);
+    foreach (Datum * d, points)
+        drawDatum(d);
 }
 
 void MainWindow::addDatum()
@@ -230,50 +229,42 @@ void MainWindow::drawPixel(Datum * d)
 
 void MainWindow::drawData()
 {
-    for(int i = 0; i < dataContainer.getData().size(); i++){
-        drawPixel(dataContainer.getData().at(i));
-    }
+    foreach (Datum * d, dataContainer.getData())
+        drawPixel(d);
 }
 
 void MainWindow::drawConceptualDescriptor()
 {
-    for(int i = 0; i < ibl->conceptualDescriptor().size(); i++){
-        drawDatum(ibl->conceptualDescriptor().at(i), QColor(Qt::black));
-    }
+    foreach (Datum * d, ibl->conceptualDescriptor())
+        drawDatum(d, QColor(Qt::black));
 }
 
 void MainWindow::drawIncorrectlyClassifiedData()
 {
-    for(int i = 0; i < ibl->incorrectlyClassifiedData().size(); i++){
-        drawDatum(ibl->incorrectlyClassifiedData().at(i), QColor(Qt::red));
-    }
+    foreach (Datum * d, ibl->incorrectlyClassifiedData())
+        drawDatum(d, QColor(Qt::red));
 }
 
 void MainWindow::drawDelaunayTriangles()
 {
-    QVector<Triple*> triples = dataContainer.getTriples();
-    for (int f = 0; f < triples.size(); f++) {
-        double xA = triples.at(f)->getA()->x();
-        double yA = triples.at(f)->getA()->y();
-        double xB = triples.at(f)->getB()->x();
-        double yB = triples.at(f)->getB()->y();
-        double xC = triples.at(f)->getC()->x();
-        double yC = triples.at(f)->getC()->y();
+    foreach (Triple * t, dataContainer.getTriples()) {
+        double xA = t->getA()->x();
+        double yA = t->getA()->y();
+        double xB = t->getB()->x();
+        double yB = t->getB()->y();
+        double xC = t->getC()->x();
+        double yC = t->getC()->y();
 
         scene->addLine(xA, yA, xB, yB, QPen(QColor(102,111,208)));
         scene->addLine(xB, yB, xC, yC, QPen(QColor(102,111,208)));
         scene->addLine(xC, yC, xA, yA, QPen(QColor(102,111,208)));
-
-
-
     }
 }
 
 void MainWindow::drawDelaunayCircles()
 {
-    QVector<Triple*> triples = dataContainer.getTriples();
-    for (int f = 0; f < triples.size(); f++) {
-        Circle circle = triples.at(f)->circumcircle();
+    foreach (Triple * t, dataContainer.getTriples()) {
+        Circle circle = t->circumcircle();
 
         QRect bounds(QRect(circle.getCenter().x() - circle.getRadius(),
                     circle.getCenter().y() - circle.getRadius(),
@@ -285,18 +276,15 @@ void MainWindow::drawDelaunayCircles()
 
 void MainWindow::drawVoronoiDiagram()
 {
-    QVector<Triple*> triples = dataContainer.getTriples();
-    for (int f = 0; f < triples.size(); f++) {
-        Triple * currentTriple = triples.at(f);
-        for (int g = 0; g < currentTriple->getNeighbors().size(); g++) {
+    foreach (Triple * currentTriple, dataContainer.getTriples()) {
+        foreach (Triple * neighbor, dataContainer.getTriples()) {
             double x1 = currentTriple->centroid().x();
             double y1 = currentTriple->centroid().y();
-            double x2 = currentTriple->getNeighbors().at(g)->centroid().x();
-            double y2 = currentTriple->getNeighbors().at(g)->centroid().y();
+            double x2 = neighbor->centroid().x();
+            double y2 = neighbor->centroid().y();
             scene->addLine(x1, y1, x2, y2);
-            if (currentTriple->isBorder()){
+            if (currentTriple->isBorder())
                 scene->addLine(x1, y1, currentTriple->toInfinityAndBeyondPoint().x(), currentTriple->toInfinityAndBeyondPoint().y());
-            }
         }
     }
 }

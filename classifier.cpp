@@ -7,13 +7,11 @@ Classifier::Classifier()
 {
 }
 
-void Classifier::nN(DistanceCalculation * algorithm, Datum * toBeClassified, const QVector<Datum*> & classifiedData)
+void Classifier::nN(DistanceCalculation * algorithm, Datum * toBeClassified, const QSet<Datum*> & classifiedData)
 {
-    Datum * nearestNeighbour = classifiedData.at(0);
-    Datum * classifiedDatum;
+    Datum * nearestNeighbour = *classifiedData.begin();
     double nearestDistance = algorithm->distance(nearestNeighbour, toBeClassified);
-    for(int i = 1; i < classifiedData.size(); i++){
-        classifiedDatum = classifiedData.at(i);
+    foreach (Datum * classifiedDatum, classifiedData) {
         if(nearestDistance > algorithm->distance(classifiedDatum, toBeClassified)) {
             nearestNeighbour = classifiedDatum;
             nearestDistance = algorithm->distance(nearestNeighbour, toBeClassified);
@@ -23,14 +21,13 @@ void Classifier::nN(DistanceCalculation * algorithm, Datum * toBeClassified, con
 }
 
 bool cmp( QPair<double, Datum*> a, QPair<double, Datum*> b ) {
-  return a.first > b.first;
+    return a.first > b.first;
 }
 
-void Classifier::kNN(DistanceCalculation * algorithm, const size_t k, Datum * toBeClassified, const QVector<Datum*> & classifiedData)
+void Classifier::kNN(DistanceCalculation * algorithm, const size_t k, Datum * toBeClassified, const QSet<Datum*> & classifiedData)
 {
     QVector< QPair<double, Datum*> > distances;
-    for(int i = 0; i < classifiedData.size(); i++) {
-        Datum * compared = classifiedData.at(i);
+    foreach (Datum * compared, classifiedData) {
         distances.push_back(QPair<double, Datum*>(algorithm->distance(toBeClassified, compared), compared));
     }
     sort(distances.begin(), distances.end(), cmp);

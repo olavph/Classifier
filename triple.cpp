@@ -69,7 +69,7 @@ Circle Triple::circumcircle()
     return Circle(a, b, c);
 }
 
-const QVector<Triple*> Triple::getNeighbors() const
+const QSet<Triple*> Triple::getNeighbors() const
 {
     return neighbors;
 }
@@ -78,7 +78,7 @@ bool Triple::isBorder() const{
     return this->neighbors.size() < 3;
 }
 
-bool Triple::isNeighbor(Triple* other){
+bool Triple::isNeighbor(Triple * other){
     size_t count = 0;
     if ((this->a == other->a) || (this->a == other->b) || (this->a == other->c))
         count++;
@@ -89,12 +89,11 @@ bool Triple::isNeighbor(Triple* other){
     return count == 2;
 }
 
-void Triple::findNeighbors(const QVector<Triple*> & others)
+void Triple::findNeighbors(const QSet<Triple*> & others)
 {
-    for (int i = 0; i < others.size(); i++) {
-        if (isNeighbor(others.at(i)))
-            neighbors.append(others.at(i));
-    }
+    foreach (Triple * other, others)
+        if (isNeighbor(other))
+            neighbors.insert(other);
 }
 
 bool Triple::containsPoint(const Datum* datum) const{
@@ -103,10 +102,12 @@ bool Triple::containsPoint(const Datum* datum) const{
 
 Datum Triple::uniqueNoBorderPoint(){
     const Datum *opositeVertex;
-    if (this->neighbors.at(0)->containsPoint(this->a) && this->neighbors.at(1)->containsPoint(this->a)){
+    Triple * neighborA = *neighbors.begin();
+    Triple * neighborB = *(neighbors.begin() + 1);
+    if (neighborA->containsPoint(this->a) && neighborB->containsPoint(this->a)){
         opositeVertex = this->a;
     }else{
-        if (this->neighbors.at(0)->containsPoint(this->b) && this->neighbors.at(1)->containsPoint(this->b)){
+        if (neighborA->containsPoint(this->b) && neighborB->containsPoint(this->b)){
             opositeVertex = this->b;
         }else{
             opositeVertex = this->c;
@@ -119,10 +120,12 @@ Datum Triple::uniqueNoBorderPoint(){
 
 Datum Triple::medianPointAtBorderEdge(){
     const Datum *opositeVertex;
-    if (this->neighbors.at(0)->containsPoint(this->a) && this->neighbors.at(1)->containsPoint(this->a)){
+    Triple * neighborA = *neighbors.begin();
+    Triple * neighborB = *(neighbors.begin() + 1);
+    if (neighborA->containsPoint(this->a) && neighborB->containsPoint(this->a)){
         return medianPointBC();
     }else{
-        if (this->neighbors.at(0)->containsPoint(this->b) && this->neighbors.at(1)->containsPoint(this->b)){
+        if (neighborA->containsPoint(this->b) && neighborB->containsPoint(this->b)){
             return medianPointAC();
         }else{
             return medianPointAB();
@@ -132,7 +135,7 @@ Datum Triple::medianPointAtBorderEdge(){
     return Datum(opositeVertex->x(),opositeVertex->y());
 }
 
-double Triple::cosenoVec(const Datum* datum){
+double Triple::cosenoVec(const Datum * datum){
     double voltaX, voltaY;
     voltaX = datum->x();
     voltaY = datum->y();
@@ -162,11 +165,12 @@ double Triple::cosenoVec(const Datum* datum){
 
 Datum Triple::toInfinityAndBeyondPoint(){
     const Datum *opositeVertex;
-
-    if (this->neighbors.at(0)->containsPoint(this->a) && this->neighbors.at(1)->containsPoint(this->a)){
+    Triple * neighborA = *neighbors.begin();
+    Triple * neighborB = *(neighbors.begin() + 1);
+    if (neighborA->containsPoint(this->a) && neighborB->containsPoint(this->a)){
         opositeVertex = this->a;
     }else{
-        if (this->neighbors.at(0)->containsPoint(this->b) && this->neighbors.at(1)->containsPoint(this->b)){
+        if (neighborA->containsPoint(this->b) && neighborB->containsPoint(this->b)){
             opositeVertex = this->b;
         }else{
             opositeVertex = this->c;

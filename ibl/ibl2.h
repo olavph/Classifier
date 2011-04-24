@@ -7,7 +7,7 @@ class IBL2 : public IBL
 {
 public:
     IBL2();
-    virtual void train(const QVector<Datum*> trainSet, const DistanceCalculation * dc);
+    virtual void train(const QSet<Datum*> trainSet, const DistanceCalculation * dc);
 };
 
 #endif // IBL2_H

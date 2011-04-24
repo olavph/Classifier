@@ -15,7 +15,7 @@ public:
     static const double FREQUENCY_INTERVAL_Z = 0.75;
 public:
     IBL3();
-    virtual void train(const QVector<Datum*> trainSet, const DistanceCalculation * dc);
+    virtual void train(const QSet<Datum*> trainSet, const DistanceCalculation * dc);
     virtual bool acceptable(const Datum * d) const;
     virtual bool rejectable(const Datum * d) const;
 };

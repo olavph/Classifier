@@ -1,8 +1,8 @@
 #include "datum.h"
 #include "class.h"
 #include "distancecalculation.h"
-#include "QVector"
-#include "QPair"
+#include <QSet>
+#include <QPair>
 
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
@@ -13,8 +13,8 @@ class Classifier
 {
 public:
     Classifier();
-    static void nN(DistanceCalculation * algorithm, Datum * toBeClassified, const QVector<Datum*> & classifiedData);
-    static void kNN(DistanceCalculation * algorithm, const size_t k, Datum * toBeClassified, const QVector<Datum*> & classifiedData);
+    static void nN(DistanceCalculation * algorithm, Datum * toBeClassified, const QSet<Datum*> & classifiedData);
+    static void kNN(DistanceCalculation * algorithm, const size_t k, Datum * toBeClassified, const QSet<Datum*> & classifiedData);
 };
 
 #endif // CLASSIFIER_H

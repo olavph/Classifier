@@ -4,7 +4,7 @@ IBL2::IBL2()
 {
 }
 
-void IBL2::train(const QVector<Datum *> trainSet, const DistanceCalculation * dc)
+void IBL2::train(const QSet<Datum*> trainSet, const DistanceCalculation * dc)
 {
     _conceptualDescriptor.clear();
     _incorrectlyClassifiedData.clear();
@@ -19,8 +19,8 @@ void IBL2::train(const QVector<Datum *> trainSet, const DistanceCalculation * dc
             }
         }
         if (mostSimilar == NULL ? true : underTraining->myOwnSuperSecretClass != mostSimilar->myOwnSuperSecretClass) {
-            _incorrectlyClassifiedData.append(underTraining);
-            _conceptualDescriptor.append(underTraining);
+            _incorrectlyClassifiedData.insert(underTraining);
+            _conceptualDescriptor.insert(underTraining);
         }
     }
 }

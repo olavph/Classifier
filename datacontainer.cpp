@@ -7,15 +7,15 @@ DataContainer::DataContainer()
 
 void DataContainer::addDatum(Datum * datum)
 {
-    points.append(datum);
+    points.insert(datum);
 }
 
-void DataContainer::addData(QVector<Datum*> & data)
+void DataContainer::addData(QSet<Datum*> & data)
 {
     points += data;
 }
 
-const QVector<Datum*> & DataContainer::getData() const
+const QSet<Datum*> & DataContainer::getData() const
 {
     return points;
 }
@@ -25,26 +25,30 @@ void DataContainer::clearData()
     points.clear();
 }
 
-const QVector<Triple*> DataContainer::getTriples()
+const QSet<Triple*> DataContainer::getTriples()
 {
     // Creates list of triples without internal points (Delaunay Triangulation)
 
-    QVector<Triple*> triplesList;
-    int numPoints = points.size();
+    QSet<Triple*> triplesList;
 
-    for (int a = 0; a < numPoints; a++) {
-        for (int b = a+1; b < numPoints; b++) {
-            for (int c = b+1; c < numPoints; c++) {
-                Triple * aTriple = new Triple(points.at(a),points.at(b),points.at(c));
-                triplesList.append(aTriple);
-                Circle tempCircle = aTriple->circumcircle();
-                for (int d = 0; d < numPoints; d++) {
-                    if ((a != d) && (b != d) && (c != d)){
-                        if (tempCircle.internalPoint(points.at(d))) {
-                            triplesList.pop_back();
-                            delete aTriple;
-                            break;
+    foreach (Datum * d1, points) {
+        foreach (Datum * d2, points) {
+            if (d1 != d2) {
+                foreach (Datum * d3, points) {
+                    if ((d1 != d3) && (d2 != d3)) {
+                        Triple * aTriple = new Triple(d1, d2 , d3);
+                        Circle tempCircle = aTriple->circumcircle();
+                        foreach (Datum * d4, points) {
+                            if ((d1 != d4) && (d2 != d4) && (d3 != d4)) {
+                                if (tempCircle.internalPoint(d4)) {
+                                    delete aTriple;
+                                    aTriple = NULL;
+                                    break;
+                                }
+                            }
                         }
+                        if (aTriple != NULL)
+                            triplesList.insert(aTriple);
                     }
                 }
             }
@@ -53,9 +57,8 @@ const QVector<Triple*> DataContainer::getTriples()
 
     // Finds neighbors to draw Voronoi Diagram
 
-    for (int i = 0; i < triplesList.size(); i++) {
-        triplesList.at(i)->findNeighbors(triplesList);
-    }
+    foreach (Triple * t, triplesList)
+        t->findNeighbors(triplesList);
 
     return triplesList;
 }

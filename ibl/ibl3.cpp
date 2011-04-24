@@ -5,7 +5,7 @@ IBL3::IBL3()
 {
 }
 
-void IBL3::train(const QVector<Datum *> trainSet, const DistanceCalculation *dc)
+void IBL3::train(const QSet<Datum*> trainSet, const DistanceCalculation *dc)
 {
     _conceptualDescriptor.clear();
     _incorrectlyClassifiedData.clear();
@@ -23,7 +23,7 @@ void IBL3::train(const QVector<Datum *> trainSet, const DistanceCalculation *dc)
 
         // If conceptual descriptor is empty, there is nothing to compare it with
         if (_conceptualDescriptor.empty()) {
-            _conceptualDescriptor.append(underTraining);
+            _conceptualDescriptor.insert(underTraining);
             continue;
         }
 
@@ -47,7 +47,7 @@ void IBL3::train(const QVector<Datum *> trainSet, const DistanceCalculation *dc)
         // Selects random datum if there is no acceptable one
         if (mostSimilar == NULL) {
             int randomIndex = ((double)rand())/RAND_MAX * _conceptualDescriptor.size();
-            mostSimilar = _conceptualDescriptor.at(randomIndex);
+            mostSimilar = *(_conceptualDescriptor.begin() + randomIndex);
         }
 
         // Updates precision and frequency intervals
@@ -55,18 +55,16 @@ void IBL3::train(const QVector<Datum *> trainSet, const DistanceCalculation *dc)
             precisionIntervals[mostSimilar].incrementCorrects();
         } else {
             precisionIntervals[mostSimilar].incrementIncorrects();
-            _incorrectlyClassifiedData.append(underTraining);
-            _conceptualDescriptor.append(underTraining);
+            _incorrectlyClassifiedData.insert(underTraining);
+            _conceptualDescriptor.insert(underTraining);
         }
 
-        for (int i = 0; i < _conceptualDescriptor.size(); i++) {
-            Datum * added = _conceptualDescriptor.at(i);
+        foreach (Datum * added, _conceptualDescriptor) {
             if (similarities.contains(added) && similarities[added] >= greaterSimilarity) {
                 precisionIntervals[added].incrementCorrects();
                 if (rejectable(added)) {
-                    _conceptualDescriptor.remove(i);
+                    _conceptualDescriptor.remove(added);
                     precisionIntervals.remove(added);
-                    i --;
                 }
             }
         }

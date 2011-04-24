@@ -7,6 +7,7 @@
 
 #include "datum.h"
 #include "circle.h"
+#include <QSet>
 
 #ifndef TRIPLE_H
 #define	TRIPLE_H
@@ -24,9 +25,9 @@ public:
     const Datum * getC();
     Datum centroid();
     Circle circumcircle();
-    const QVector<Triple*> getNeighbors() const;
+    const QSet<Triple*> getNeighbors() const;
     bool isNeighbor(Triple* other);
-    void findNeighbors(const QVector<Triple*> & others);
+    void findNeighbors(const QSet<Triple*> & others);
     bool isBorder() const;
     bool containsPoint(const Datum* datum) const;
     Datum uniqueNoBorderPoint();
@@ -35,7 +36,7 @@ public:
     Datum toInfinityAndBeyondPoint(); //this should be executed only if this is a border triple!!!
     virtual ~Triple();
 private:
-    QVector<Triple*> neighbors;
+    QSet<Triple*> neighbors;
     Datum medianPointAtSegment(const Datum * a, const Datum * b);
 protected:
     const Datum * a;
